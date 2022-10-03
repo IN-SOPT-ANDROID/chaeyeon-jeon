@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.snackbar.Snackbar
 import org.sopt.sample.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
                 savedId = id
                 savedPwd = password
                 savedMbti = mbti
+                Snackbar.make(binding.root, "회원가입이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
             }
         }
 

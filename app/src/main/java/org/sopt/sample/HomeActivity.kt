@@ -14,10 +14,10 @@ class HomeActivity : AppCompatActivity() {
 
         // 회원정보 받아오기
         if (intent.hasExtra("id")) {
-            binding.txtName.text = binding.txtName.text.toString() + intent.getStringExtra("id");
+            binding.txtName.append(intent.getStringExtra("id"))
         }
         if (intent.hasExtra("mbti")) {
-            binding.txtMbti.text = binding.txtMbti.text.toString() + intent.getStringExtra("mbti");
+            binding.txtMbti.append(intent.getStringExtra("mbti"))
         }
     }
 }

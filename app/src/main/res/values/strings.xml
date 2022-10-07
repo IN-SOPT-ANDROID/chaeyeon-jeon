@@ -11,6 +11,7 @@
     <string name="signup_complete">회원가입 완료</string>
 
     <string name="msg_incorrect">잘못된 입력입니다.</string>
+    <string name="msg_error">오류가 발생하였습니다.</string>
     <string name="msg_id_incorrect">잘못된 아이디입니다.</string>
     <string name="msg_pwd_incorrect">잘못된 비밀번호입니다.</string>
 

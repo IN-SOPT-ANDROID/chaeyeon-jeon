@@ -3,8 +3,8 @@ package org.sopt.sample
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import org.sopt.sample.base.showSnackbar
+import org.sopt.sample.data.User
 import org.sopt.sample.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
@@ -31,11 +31,10 @@ class SignUpActivity : AppCompatActivity() {
 
             // 회원가입 성공
             val intent = Intent(this, LoginActivity::class.java).apply {
-                intent.putExtra("id", binding.etId.text.toString())
-                intent.putExtra("password", binding.etPwd.text.toString())
-                intent.putExtra("mbti", binding.etMbti.text.toString())
+                val user = User(binding.etId.text.toString(), binding.etPwd.text.toString(), binding.etMbti.text.toString())
+                intent.putExtra("user", user as java.io.Serializable)
+                setResult(RESULT_OK, intent)
             }
-            setResult(RESULT_OK, intent)
             finish()
         }
     }

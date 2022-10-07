@@ -43,6 +43,18 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // 잘못된 아이디를 입력한 경우 (성공 조건 : 6자 이상)
+            if (binding.etId.text.length < 6) {
+                showSnackbar(binding.root, getString(R.string.msg_id_incorrect))
+                return@setOnClickListener
+            }
+
+            // 잘못된 비밀번호를 입력한 경우 (성공 조건 : 6자 이상 10자 이하)
+            if (binding.etPwd.text.length !in 6..10) {
+                showSnackbar(binding.root, getString(R.string.msg_pwd_incorrect))
+                return@setOnClickListener
+            }
+
             // 입력한 정보가 회원정보와 불일치하는 경우
             if (savedUser?.id != binding.etId.text.toString() || savedUser?.pwd != binding.etPwd.text.toString()) {
                 showToast(getString(R.string.msg_incorrect))

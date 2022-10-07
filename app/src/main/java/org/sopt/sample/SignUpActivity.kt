@@ -3,6 +3,7 @@ package org.sopt.sample
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.data.User
 import org.sopt.sample.databinding.ActivitySignUpBinding
@@ -15,6 +16,16 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        init()
+        signupBtnOnClick()
+    }
+
+    private fun init() {
+        // 키보드 내리기
+        binding.layout.setOnClickListener { this.hideKeyboard() }
+    }
+
+    private fun signupBtnOnClick() {
         // 회원가입 완료 버튼을 클릭한 경우
         binding.btnSignup.setOnClickListener {
             // 잘못된 아이디가 입력된 경우 (성공조건 : 6 ~ 10글자)

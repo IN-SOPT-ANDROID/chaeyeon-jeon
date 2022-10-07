@@ -13,6 +13,10 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        init()
+    }
+
+    private fun init() {
         // 회원정보 받아오기
         if (intent.hasExtra("user")) {
             val savedUser = intent.getSerializableExtra("user") as User

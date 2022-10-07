@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
 import org.sopt.sample.data.User
@@ -23,22 +24,17 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 로그인 화면으로 돌아올 경우 회원정보 설정 (Activity Result 콜백 등록)
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                if (result.data?.hasExtra("user") == true) {
-                    savedUser = result.data?.getSerializableExtra("user") as User
-                    showSnackbar(binding.root, getString(R.string.msg_signup_success))
-                } else showSnackbar(binding.root, getString(R.string.msg_error))
-            }
-        }
+        init()
+        loginBtnOnClick()
+        signupBtnOnClick()
+    }
 
-        // 회원가입 버튼을 클릭한 경우
-        binding.btnSignup.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            resultLauncher.launch(intent)
-        }
+    private fun init() {
+        // 키보드 내리기
+        binding.layout.setOnClickListener { this.hideKeyboard() }
+    }
 
+    private fun loginBtnOnClick() {
         // 로그인 버튼을 클릭한 경우
         binding.btnLogin.setOnClickListener {
             // 회원정보가 존재하지 않는 경우
@@ -60,6 +56,24 @@ class LoginActivity : AppCompatActivity() {
             }
             startActivity(intent)
             finish()
+        }
+    }
+
+    private fun signupBtnOnClick() {
+        // 로그인 화면으로 돌아올 경우 회원정보 설정 (Activity Result 콜백 등록)
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                if (result.data?.hasExtra("user") == true) {
+                    savedUser = result.data?.getSerializableExtra("user") as User
+                    showSnackbar(binding.root, getString(R.string.msg_signup_success))
+                } else showSnackbar(binding.root, getString(R.string.msg_error))
+            }
+        }
+
+        // 회원가입 버튼을 클릭한 경우
+        binding.btnSignup.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            resultLauncher.launch(intent)
         }
     }
 }

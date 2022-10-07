@@ -65,21 +65,30 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:paddingVertical="10dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/et_pwd" />
+        android:layout_marginTop="30dp" />
 
-    <!-- 회원가입 버튼 추가 -->
     <Button
         android:id="@+id/btn_signup"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/signup"
         android:paddingVertical="10dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_login" />
+        android:layout_marginTop="15dp" />
+    
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow_btn"
+        android:orientation="horizontal"
+        app:flow_horizontalGap="12dp"
+        app:constraint_referenced_ids="btn_login,btn_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_pwd"
+        android:layout_marginTop="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

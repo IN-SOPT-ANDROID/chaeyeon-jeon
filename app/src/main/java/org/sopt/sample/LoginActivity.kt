@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
 
             // 로그인 성공
             showToast(getString(R.string.msg_login_success))
-            val intent = Intent(this, HomeActivity::class.java).apply {
+            val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("user", savedUser)
             }
             startActivity(intent)

@@ -24,11 +24,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigationBar() {
+        // 시작 프래그먼트 설정
         val currentFragment = supportFragmentManager.findFragmentById(R.id.container_home)
         if (currentFragment == null) setCurrentFragment(fragmentHome)
 
+        // 메뉴를 선택한 경우
         binding.bnvHome.setOnItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.menu_home -> setCurrentFragment(fragmentHome)
                 R.id.menu_user -> setCurrentFragment(fragmentUser)
                 R.id.menu_setting -> setCurrentFragment(fragmentSetting)

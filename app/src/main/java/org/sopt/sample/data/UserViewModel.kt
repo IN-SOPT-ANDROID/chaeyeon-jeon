@@ -3,7 +3,7 @@ package org.sopt.sample.data
 import androidx.lifecycle.ViewModel
 import org.sopt.sample.R
 
-class UserViewModel: ViewModel() {
+class UserViewModel : ViewModel() {
     val mockUserList = listOf<User>(
         User(
             img = R.drawable.ic_profile,

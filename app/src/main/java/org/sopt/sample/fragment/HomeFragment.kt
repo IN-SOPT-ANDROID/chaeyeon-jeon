@@ -14,7 +14,7 @@ import org.sopt.sample.data.UserViewModel
 import org.sopt.sample.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
-    private var _binding: FragmentHomeBinding?= null
+    private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = requireNotNull(_binding) { "binding value was null." }
 

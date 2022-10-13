@@ -8,4 +8,4 @@ data class User(
     val id: String,
     val pwd: String,
     val mbti: String,
-): Serializable {}
+) : Serializable {}

@@ -42,7 +42,12 @@ class SignUpActivity : AppCompatActivity() {
 
             // 회원가입 성공
             val intent = Intent(this, LoginActivity::class.java).apply {
-                val user = User(R.drawable.ic_profile, binding.etId.text.toString(), binding.etPwd.text.toString(), binding.etMbti.text.toString())
+                val user = User(
+                    R.drawable.ic_profile,
+                    binding.etId.text.toString(),
+                    binding.etPwd.text.toString(),
+                    binding.etMbti.text.toString()
+                )
                 intent.putExtra("user", user as java.io.Serializable)
                 setResult(RESULT_OK, intent)
             }

@@ -26,7 +26,7 @@ class UserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        initView()
     }
 
     override fun onDestroyView() {
@@ -34,7 +34,7 @@ class UserFragment : Fragment() {
         _binding = null
     }
 
-    private fun init() {
+    private fun initView() {
         // 회원정보 받아오기
         val intent = activity?.intent
         if (intent != null && intent.hasExtra("user")) {

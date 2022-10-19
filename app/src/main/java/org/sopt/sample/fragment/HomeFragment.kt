@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        initAdapter()
     }
 
     override fun onDestroyView() {
@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun init() {
+    private fun initAdapter() {
         // 리사이클러뷰 어댑터 설정
         val adapter = UserAdapter(requireContext())
         binding.rvUser.adapter = adapter

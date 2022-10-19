@@ -16,11 +16,11 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        init()
+        initView()
         signupBtnOnClick()
     }
 
-    private fun init() {
+    private fun initView() {
         // 키보드 내리기
         binding.layout.setOnClickListener { this.hideKeyboard() }
     }

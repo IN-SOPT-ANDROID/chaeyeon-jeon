@@ -23,7 +23,7 @@ class UserAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
                 )
             )
             VIEW_TYPE_ITEM -> UserViewHolder(ItemHomeUserBinding.inflate(inflater, parent, false))
-            else -> throw ClassCastException("Unkown View Type ${viewType}")
+            else -> throw ClassCastException("Unkown View Type : ${viewType}")
         }
     }
 
@@ -48,7 +48,7 @@ class UserAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
     class UserViewHolder(private val binding: ItemHomeUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setUser(user: User) {
-            binding.imgProfile.setImageDrawable(binding.root.context.getDrawable(user.img))
+            binding.imgProfile.setImageResource(user.img)
             binding.txtName.append(user.id)
             binding.txtMbti.append(user.mbti)
         }
@@ -58,7 +58,7 @@ class UserAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHold
         RecyclerView.ViewHolder(binding.root) {}
 
     companion object {
-        private final val VIEW_TYPE_HEADER = 0
-        private final val VIEW_TYPE_ITEM = 1
+        private const val VIEW_TYPE_HEADER = 0
+        private const val VIEW_TYPE_ITEM = 1
     }
 }

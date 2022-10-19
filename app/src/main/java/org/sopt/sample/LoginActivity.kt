@@ -24,12 +24,12 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        init()
+        initView()
         loginBtnOnClick()
         signupBtnOnClick()
     }
 
-    private fun init() {
+    private fun initView() {
         // 키보드 내리기
         binding.layout.setOnClickListener { this.hideKeyboard() }
     }
@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
 
             // 로그인 성공
             showToast(getString(R.string.msg_login_success))
-            val intent = Intent(this, HomeActivity::class.java).apply {
+            val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("user", savedUser)
             }
             startActivity(intent)
@@ -73,14 +73,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signupBtnOnClick() {
         // 로그인 화면으로 돌아올 경우 회원정보 설정 (Activity Result 콜백 등록)
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                if (result.data?.hasExtra("user") == true) {
-                    savedUser = result.data?.getSerializableExtra("user") as User
-                    showSnackbar(binding.root, getString(R.string.msg_signup_success))
-                } else showSnackbar(binding.root, getString(R.string.msg_error))
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    if (result.data?.hasExtra("user") == true) {
+                        savedUser = result.data?.getSerializableExtra("user") as User
+                        showSnackbar(binding.root, getString(R.string.msg_signup_success))
+                    } else showSnackbar(binding.root, getString(R.string.msg_error))
+                }
             }
-        }
 
         // 회원가입 버튼을 클릭한 경우
         binding.btnSignup.setOnClickListener {

@@ -16,11 +16,11 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        init()
+        initView()
         signupBtnOnClick()
     }
 
-    private fun init() {
+    private fun initView() {
         // 키보드 내리기
         binding.layout.setOnClickListener { this.hideKeyboard() }
     }
@@ -42,7 +42,12 @@ class SignUpActivity : AppCompatActivity() {
 
             // 회원가입 성공
             val intent = Intent(this, LoginActivity::class.java).apply {
-                val user = User(binding.etId.text.toString(), binding.etPwd.text.toString(), binding.etMbti.text.toString())
+                val user = User(
+                    R.drawable.ic_profile,
+                    binding.etId.text.toString(),
+                    binding.etPwd.text.toString(),
+                    binding.etMbti.text.toString()
+                )
                 intent.putExtra("user", user as java.io.Serializable)
                 setResult(RESULT_OK, intent)
             }

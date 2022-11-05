@@ -1,6 +1,7 @@
 package org.sopt.sample
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,10 @@ import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
 import org.sopt.sample.data.User
+import org.sopt.sample.data.UserViewModel.Companion.PREF_FILE_NAME
+import org.sopt.sample.data.UserViewModel.Companion.PREF_USER_ID
+import org.sopt.sample.data.UserViewModel.Companion.PREF_USER_MBTI
+import org.sopt.sample.data.UserViewModel.Companion.PREF_USER_PWD
 import org.sopt.sample.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -24,9 +29,20 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        autoLogin()
         initView()
         loginBtnOnClick()
         signupBtnOnClick()
+    }
+
+    /** 자동 로그인 확인 */
+    private fun autoLogin() {
+        val shared = getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
+        if (shared.getString(PREF_USER_ID, null) != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun initView() {
@@ -62,6 +78,12 @@ class LoginActivity : AppCompatActivity() {
             }
 
             // 로그인 성공
+            val shared = getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
+            shared.edit().apply {
+                putString(PREF_USER_ID, savedUser?.id)
+                putString(PREF_USER_PWD, savedUser?.pwd)
+                putString(PREF_USER_MBTI, savedUser?.mbti)
+            }
             showToast(getString(R.string.msg_login_success))
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("user", savedUser)

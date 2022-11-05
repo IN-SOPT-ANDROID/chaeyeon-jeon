@@ -1,5 +1,6 @@
 package org.sopt.sample.data
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import org.sopt.sample.R
 
@@ -36,4 +37,11 @@ class UserViewModel : ViewModel() {
             mbti = "ENFP",
         ),
     )
+
+    companion object {
+        const val PREF_FILE_NAME = "IN_SOPT"
+        const val PREF_USER_ID = "USER_ID"
+        const val PREF_USER_PWD = "USER_PWD"
+        const val PREF_USER_MBTI = "USER_MBTI"
+    }
 }

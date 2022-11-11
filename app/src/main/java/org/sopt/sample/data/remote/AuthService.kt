@@ -10,4 +10,10 @@ interface AuthService {
     fun login(
         @Body request: RequestLoginDTO
     ): Call<ResponseLoginDTO>
+
+    // 회원가입 API
+    @POST("api/user/signup")
+    fun signup(
+        @Body request: RequestSignupDTO
+    ): Call<ResponseSignupDTO>
 }

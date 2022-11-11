@@ -21,24 +21,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_id_title"
+        android:id="@+id/txt_email_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/id"
+        android:text="@string/email"
         android:textStyle="bold"
         android:layout_marginTop="45dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_title"/>
 
     <EditText
-        android:id="@+id/et_id"
+        android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="@string/hint_id"
+        android:hint="@string/hint_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_id_title"
+        app:layout_constraintTop_toBottomOf="@id/txt_email_title"
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
@@ -49,7 +49,7 @@
         android:textStyle="bold"
         android:layout_marginTop="45dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_id"/>
+        app:layout_constraintTop_toBottomOf="@id/et_email"/>
 
     <EditText
         android:id="@+id/et_pwd"

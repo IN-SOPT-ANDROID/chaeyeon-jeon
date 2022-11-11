@@ -27,7 +27,6 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private val authService = ServicePool.authService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,25 +45,23 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginBtnOnClick() {
-        // 로그인 버튼을 클릭한 경우
         binding.btnLogin.setOnClickListener {
-//            // 잘못된 아이디를 입력한 경우 (성공 조건 : 6자 이상)
-//            if (binding.etId.text.length < 6) {
-//                showSnackbar(binding.root, getString(R.string.msg_id_incorrect))
-//                return@setOnClickListener
-//            }
+            // 이메일을 입력하지 않은 경우
+            if (binding.etEmail.text.isEmpty()) {
+                showSnackbar(binding.root, getString(R.string.msg_email_incorrect))
+                return@setOnClickListener
+            }
 
-//            // 잘못된 비밀번호를 입력한 경우 (성공 조건 : 6자 이상 10자 이하)
-//            if (binding.etPwd.text.length !in 6..10) {
-//                showSnackbar(binding.root, getString(R.string.msg_pwd_incorrect))
-//                return@setOnClickListener
-//            }
+            // 잘못된 비밀번호를 입력한 경우 (성공 조건 : 6자 이상 10자 이하)
+            if (binding.etPwd.text.length !in 6..10) {
+                showSnackbar(binding.root, getString(R.string.msg_pwd_incorrect))
+                return@setOnClickListener
+            }
 
-            // 로그인 성공
+            // 로그인 API 연결
             authService.login(
-                // 요청 객체
                 RequestLoginDTO(
-                    binding.etId.text.toString(),
+                    binding.etEmail.text.toString(),
                     binding.etPwd.text.toString()
                 )
             ).enqueue(object : Callback<ResponseLoginDTO> {
@@ -72,30 +69,36 @@ class LoginActivity : AppCompatActivity() {
                     call: Call<ResponseLoginDTO>,
                     response: Response<ResponseLoginDTO>
                 ) {
-                    // 성공 여부 확인
+                    // login success
                     if (response.isSuccessful) {
                         showToast(getString(R.string.msg_login_success))
+                        Log.d("LOGIN_SUCCESS", "response : " + response.body().toString())
                         val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
                             putExtra("id", response.body()?.result?.id)
                         }
                         startActivity(intent)
                         finish()
                     }
+                    // login fail
+                    else {
+                        showSnackbar(binding.root, getString(R.string.msg_login_fail))
+                        Log.e("LOGIN_FAIL", "message : " + response.message())
+                    }
                 }
 
                 override fun onFailure(call: Call<ResponseLoginDTO>, t: Throwable) {
-                    showToast(getString(R.string.msg_error))
-                    Log.e("LOGIN_FAIL", "message : " + t.message.toString())
+                    showSnackbar(binding.root, getString(R.string.msg_error))
+                    Log.e("LOGIN_FAIL", "cause : " + t.cause)
+                    Log.e("LOGIN_FAIL", "message : " + t.message)
                 }
             })
         }
     }
 
     private fun signupBtnOnClick() {
-        // 회원가입 버튼을 클릭한 경우
         binding.btnSignup.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
-            resultLauncher.launch(intent)
+            startActivity(intent)
         }
     }
 }

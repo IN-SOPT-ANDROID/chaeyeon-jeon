@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.sopt.sample.data.remote.ResponseGetFollowerListDTO
 import org.sopt.sample.databinding.HeaderHomeFollowerBinding
 import org.sopt.sample.databinding.ItemHomeFollowerBinding
@@ -47,7 +48,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
     class FollowerViewHolder(private val binding: ItemHomeFollowerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setFollower(follower: ResponseGetFollowerListDTO.Follower) {
-            // avatar 링크 이미지로 변환하기
+            Glide.with(this.binding.root).load(follower.avatar).into(binding.imgProfile)
             binding.txtName.append("${follower.firstName} ${follower.lastName}")
             binding.txtEmail.append(follower.email)
         }

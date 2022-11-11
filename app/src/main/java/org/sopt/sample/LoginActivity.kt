@@ -1,22 +1,12 @@
 package org.sopt.sample
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
-import org.sopt.sample.data.User
-import org.sopt.sample.data.UserViewModel.Companion.PREF_FILE_NAME
-import org.sopt.sample.data.UserViewModel.Companion.PREF_USER_ID
-import org.sopt.sample.data.UserViewModel.Companion.PREF_USER_MBTI
-import org.sopt.sample.data.UserViewModel.Companion.PREF_USER_PWD
 import org.sopt.sample.data.remote.RequestLoginDTO
 import org.sopt.sample.data.remote.ResponseLoginDTO
 import org.sopt.sample.data.remote.ServicePool

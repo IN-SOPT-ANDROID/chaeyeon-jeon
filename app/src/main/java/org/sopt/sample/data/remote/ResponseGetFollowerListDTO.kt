@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResponseGetFollowerListDTO(
     @SerialName("page")
-    val page: Long,
+    val page: Int,
     @SerialName("per_page")
-    val perPage: Long,
+    val perPage: Int,
     @SerialName("total")
-    val total: Long,
+    val total: Int,
     @SerialName("total_pages")
-    val totalPages: Long,
+    val totalPages: Int,
     @SerialName("data")
     val data: List<Follower>,
     @SerialName("support")
@@ -21,7 +21,7 @@ data class ResponseGetFollowerListDTO(
     @Serializable
     data class Follower(
         @SerialName("id")
-        val id: Long,
+        val id: Int,
         @SerialName("email")
         val email: String,
         @SerialName("first_name")

@@ -3,6 +3,8 @@ package org.sopt.sample.data.remote
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.sample.api.AuthService
 import org.sopt.sample.api.FollowerService
 import retrofit2.Retrofit
@@ -15,10 +17,19 @@ object ApiFactory {
             .build()
     }
 
+    var mHttpLoggingInterceptor = HttpLoggingInterceptor()
+        .setLevel(HttpLoggingInterceptor.Level.BODY)
+
+    var mOkHttpClient = OkHttpClient
+        .Builder()
+        .addInterceptor(mHttpLoggingInterceptor)
+        .build()
+
     val retrofitReqres by lazy {
         Retrofit.Builder()
             .baseUrl("https://reqres.in/")
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())) // JSON -> Kotlin
+            .client(mOkHttpClient)
             .build()
     }
 

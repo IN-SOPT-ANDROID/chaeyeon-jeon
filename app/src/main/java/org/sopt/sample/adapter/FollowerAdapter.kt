@@ -47,8 +47,8 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
     class FollowerViewHolder(private val binding: ItemHomeFollowerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setFollower(follower: ResponseGetFollowerListDTO.Follower) {
-            binding.imgProfile.setImageResource(follower.avatar.toInt())
-            binding.txtName.append(follower.id.toString())
+            // avatar 링크 이미지로 변환하기
+            binding.txtName.append("${follower.firstName} ${follower.lastName}")
             binding.txtEmail.append(follower.email)
         }
     }

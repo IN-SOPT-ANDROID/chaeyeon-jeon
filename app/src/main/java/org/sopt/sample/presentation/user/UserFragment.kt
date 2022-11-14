@@ -1,14 +1,12 @@
-package org.sopt.sample.fragment
+package org.sopt.sample.presentation.user
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import org.sopt.sample.R
 import org.sopt.sample.base.showSnackbar
-import org.sopt.sample.base.showToast
-import org.sopt.sample.data.remote.ResponseGetFollowerListDTO
 import org.sopt.sample.databinding.FragmentUserBinding
 
 class UserFragment : Fragment() {
@@ -39,7 +37,10 @@ class UserFragment : Fragment() {
         val intent = activity?.intent
         if (intent != null && intent.hasExtra("id")) {
             val savedUserId = intent.getLongExtra("id", -1L)
-            if (savedUserId == -1L) context?.showSnackbar(binding.root, getString(R.string.msg_error))
+            if (savedUserId == -1L) context?.showSnackbar(
+                binding.root,
+                getString(R.string.msg_error)
+            )
         }
     }
 

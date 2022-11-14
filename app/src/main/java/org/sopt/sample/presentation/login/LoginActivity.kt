@@ -1,9 +1,10 @@
-package org.sopt.sample
+package org.sopt.sample.presentation.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import org.sopt.sample.R
 import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
@@ -11,6 +12,8 @@ import org.sopt.sample.data.remote.RequestLoginDTO
 import org.sopt.sample.data.remote.ResponseLoginDTO
 import org.sopt.sample.data.remote.ServicePool
 import org.sopt.sample.databinding.ActivityLoginBinding
+import org.sopt.sample.presentation.MainActivity
+import org.sopt.sample.presentation.signup.SignUpActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

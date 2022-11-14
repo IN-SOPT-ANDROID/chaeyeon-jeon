@@ -1,4 +1,4 @@
-package org.sopt.sample.fragment
+package org.sopt.sample.presentation.home
 
 import android.os.Bundle
 import android.util.Log
@@ -10,14 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import org.sopt.sample.R
-import org.sopt.sample.adapter.FollowerAdapter
-import org.sopt.sample.adapter.FollowerAdapter.Companion.VIEW_TYPE_HEADER
-import org.sopt.sample.adapter.FollowerAdapter.Companion.VIEW_TYPE_ITEM
 import org.sopt.sample.base.showSnackbar
-import org.sopt.sample.data.FollowerViewModel
 import org.sopt.sample.data.remote.ResponseGetFollowerListDTO
 import org.sopt.sample.data.remote.ServicePool.followerService
 import org.sopt.sample.databinding.FragmentHomeBinding
+import org.sopt.sample.presentation.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
+import org.sopt.sample.presentation.home.FollowerAdapter.Companion.VIEW_TYPE_ITEM
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -82,7 +80,13 @@ class HomeFragment : Fragment() {
                             when (adapter.getItemViewType(position)) {
                                 VIEW_TYPE_HEADER -> return 2
                                 VIEW_TYPE_ITEM -> return 1
-                                else -> throw ClassCastException("Unkown View Type : ${adapter.getItemViewType(position)}")
+                                else -> throw ClassCastException(
+                                    "Unkown View Type : ${
+                                        adapter.getItemViewType(
+                                            position
+                                        )
+                                    }"
+                                )
                             }
                         }
                     }

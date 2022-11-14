@@ -1,9 +1,10 @@
-package org.sopt.sample
+package org.sopt.sample.presentation.signup
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import org.sopt.sample.R
 import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
@@ -56,7 +57,7 @@ class SignUpActivity : AppCompatActivity() {
                     binding.etPwd.text.toString(),
                     binding.etName.text.toString()
                 )
-            ).enqueue(object: Callback<ResponseSignupDTO> {
+            ).enqueue(object : Callback<ResponseSignupDTO> {
                 override fun onResponse(
                     call: Call<ResponseSignupDTO>,
                     response: Response<ResponseSignupDTO>

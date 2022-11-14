@@ -22,7 +22,13 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
                     false
                 )
             )
-            VIEW_TYPE_ITEM -> FollowerViewHolder(ItemHomeFollowerBinding.inflate(inflater, parent, false))
+            VIEW_TYPE_ITEM -> FollowerViewHolder(
+                ItemHomeFollowerBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
             else -> throw ClassCastException("Unkown View Type : ${viewType}")
         }
     }
@@ -48,7 +54,10 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
     class FollowerViewHolder(private val binding: ItemHomeFollowerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setFollower(follower: ResponseGetFollowerListDTO.Follower) {
-            Glide.with(this.binding.root).load(follower.avatar).into(binding.imgProfile)
+            Glide.with(this.binding.root)
+                .load(follower.avatar)
+                .circleCrop()
+                .into(binding.imgProfile)
             binding.txtName.append("${follower.firstName} ${follower.lastName}")
             binding.txtEmail.append(follower.email)
         }
@@ -58,7 +67,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
         RecyclerView.ViewHolder(binding.root) {}
 
     companion object {
-        private const val VIEW_TYPE_HEADER = 0
-        private const val VIEW_TYPE_ITEM = 1
+        const val VIEW_TYPE_HEADER = 0
+        const val VIEW_TYPE_ITEM = 1
     }
 }

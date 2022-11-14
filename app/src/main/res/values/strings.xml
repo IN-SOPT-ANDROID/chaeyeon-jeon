@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">IN SOPT</string>
     <string name="title_login">Welcome to SOPT</string>
-    <string name="title_home">팔로워</string>
+    <string name="title_home">팔로워 목록</string>
 
     <string name="email">이메일</string>
     <string name="pwd">비밀번호</string>

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import org.sopt.sample.R
 import org.sopt.sample.base.showSnackbar
-import org.sopt.sample.data.remote.ResponseGetFollowerListDTO
+import org.sopt.sample.data.remote.ResponseGetFollowerListDto
 import org.sopt.sample.data.remote.ServicePool.followerService
 import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.presentation.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
@@ -50,10 +50,10 @@ class HomeFragment : Fragment() {
         followerViewModel.followerList.clear()
 
         // Reqres Get List User API로 팔로워 목록 불러오기 (일단 1페이지로 요청)
-        followerService.getFollowerList(1).enqueue(object : Callback<ResponseGetFollowerListDTO> {
+        followerService.getFollowerList(1).enqueue(object : Callback<ResponseGetFollowerListDto> {
             override fun onResponse(
-                call: Call<ResponseGetFollowerListDTO>,
-                response: Response<ResponseGetFollowerListDTO>
+                call: Call<ResponseGetFollowerListDto>,
+                response: Response<ResponseGetFollowerListDto>
             ) {
                 if (response.isSuccessful) {
                     Log.d("GET_FOLLOWER_LIST", "response : " + response.body().toString())
@@ -100,7 +100,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<ResponseGetFollowerListDTO>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseGetFollowerListDto>, t: Throwable) {
                 context?.showSnackbar(binding.root, getString(R.string.msg_home_fail))
                 Log.e("GET_FOLLOWER_LIST", "message : " + t.message)
             }

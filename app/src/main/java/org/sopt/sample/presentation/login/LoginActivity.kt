@@ -8,8 +8,8 @@ import org.sopt.sample.R
 import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
-import org.sopt.sample.data.remote.RequestLoginDTO
-import org.sopt.sample.data.remote.ResponseLoginDTO
+import org.sopt.sample.data.remote.RequestLoginDto
+import org.sopt.sample.data.remote.ResponseLoginDto
 import org.sopt.sample.data.remote.ServicePool
 import org.sopt.sample.databinding.ActivityLoginBinding
 import org.sopt.sample.presentation.MainActivity
@@ -53,14 +53,14 @@ class LoginActivity : AppCompatActivity() {
 
             // 로그인 API 연결
             authService.login(
-                RequestLoginDTO(
+                RequestLoginDto(
                     binding.etEmail.text.toString(),
                     binding.etPwd.text.toString()
                 )
-            ).enqueue(object : Callback<ResponseLoginDTO> {
+            ).enqueue(object : Callback<ResponseLoginDto> {
                 override fun onResponse(
-                    call: Call<ResponseLoginDTO>,
-                    response: Response<ResponseLoginDTO>
+                    call: Call<ResponseLoginDto>,
+                    response: Response<ResponseLoginDto>
                 ) {
                     // login success
                     if (response.isSuccessful) {
@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseLoginDTO>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseLoginDto>, t: Throwable) {
                     showSnackbar(binding.root, getString(R.string.msg_error))
                     Log.e("LOGIN_FAIL", "cause : " + t.cause)
                     Log.e("LOGIN_FAIL", "message : " + t.message)

@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.sopt.sample.data.remote.ResponseGetFollowerListDTO
+import org.sopt.sample.data.remote.ResponseGetFollowerListDto
 import org.sopt.sample.databinding.HeaderHomeFollowerBinding
 import org.sopt.sample.databinding.ItemHomeFollowerBinding
 
 class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater by lazy { LayoutInflater.from(context) }
-    private var followerList: List<ResponseGetFollowerListDTO.Follower> = emptyList()
+    private var followerList: List<ResponseGetFollowerListDto.Follower> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -46,14 +46,14 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
         else return VIEW_TYPE_ITEM
     }
 
-    fun setFollowerList(followerList: List<ResponseGetFollowerListDTO.Follower>) {
+    fun setFollowerList(followerList: List<ResponseGetFollowerListDto.Follower>) {
         this.followerList = followerList.toList()
         notifyDataSetChanged()
     }
 
     class FollowerViewHolder(private val binding: ItemHomeFollowerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setFollower(follower: ResponseGetFollowerListDTO.Follower) {
+        fun setFollower(follower: ResponseGetFollowerListDto.Follower) {
             Glide.with(this.binding.root)
                 .load(follower.avatar)
                 .circleCrop()

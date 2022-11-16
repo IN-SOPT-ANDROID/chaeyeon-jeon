@@ -19,10 +19,10 @@ object ApiFactory {
             .build()
     }
 
-    var httpLoggingInterceptor = HttpLoggingInterceptor()
+    private val httpLoggingInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
 
-    var okHttpClient = OkHttpClient
+    private val okHttpClient = OkHttpClient
         .Builder()
         .addInterceptor(httpLoggingInterceptor)
         .build()

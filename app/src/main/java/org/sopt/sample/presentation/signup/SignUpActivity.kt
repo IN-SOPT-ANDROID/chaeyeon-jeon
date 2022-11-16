@@ -8,8 +8,8 @@ import org.sopt.sample.R
 import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
-import org.sopt.sample.data.remote.RequestSignupDTO
-import org.sopt.sample.data.remote.ResponseSignupDTO
+import org.sopt.sample.data.remote.RequestSignupDto
+import org.sopt.sample.data.remote.ResponseSignupDto
 import org.sopt.sample.data.remote.ServicePool.authService
 import org.sopt.sample.databinding.ActivitySignUpBinding
 import retrofit2.Call
@@ -52,15 +52,15 @@ class SignUpActivity : AppCompatActivity() {
         binding.btnSignup.setOnClickListener {
             // 회원가입 API 연결
             authService.signup(
-                RequestSignupDTO(
+                RequestSignupDto(
                     binding.etEmail.text.toString(),
                     binding.etPwd.text.toString(),
                     binding.etName.text.toString()
                 )
-            ).enqueue(object : Callback<ResponseSignupDTO> {
+            ).enqueue(object : Callback<ResponseSignupDto> {
                 override fun onResponse(
-                    call: Call<ResponseSignupDTO>,
-                    response: Response<ResponseSignupDTO>
+                    call: Call<ResponseSignupDto>,
+                    response: Response<ResponseSignupDto>
                 ) {
                     // signup success
                     if (response.isSuccessful) {
@@ -76,7 +76,7 @@ class SignUpActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseSignupDTO>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseSignupDto>, t: Throwable) {
                     showSnackbar(binding.root, getString(R.string.msg_error))
                     Log.e("SIGNUP_FAIL", "message : " + t.message)
                 }

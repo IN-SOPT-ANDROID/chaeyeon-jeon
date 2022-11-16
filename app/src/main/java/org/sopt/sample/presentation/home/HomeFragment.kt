@@ -28,7 +28,8 @@ class HomeFragment : Fragment() {
     private val followerViewModel by viewModels<FollowerViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -60,7 +61,7 @@ class HomeFragment : Fragment() {
 
                     // 팔로워가 존재하지 않는 경우
                     if (response.body()?.data == null) {
-                        context?.showSnackbar(binding.root, getString(R.string.msg_home_null))
+                        requireContext().showSnackbar(binding.root, getString(R.string.msg_home_null))
                         return
                     }
 
@@ -82,9 +83,9 @@ class HomeFragment : Fragment() {
                                 VIEW_TYPE_ITEM -> return 1
                                 else -> throw ClassCastException(
                                     "Unkown View Type : ${
-                                        adapter.getItemViewType(
-                                            position
-                                        )
+                                    adapter.getItemViewType(
+                                        position
+                                    )
                                     }"
                                 )
                             }
@@ -94,14 +95,14 @@ class HomeFragment : Fragment() {
                 }
                 // get follower list fail
                 else {
-                    context?.showSnackbar(binding.root, getString(R.string.msg_home_fail))
+                    requireContext().showSnackbar(binding.root, getString(R.string.msg_home_fail))
                     Log.e("GET_FOLLOWER_LIST", "code : " + response.code())
                     Log.e("GET_FOLLOWER_LIST", "message : " + response.message())
                 }
             }
 
             override fun onFailure(call: Call<ResponseGetFollowerListDto>, t: Throwable) {
-                context?.showSnackbar(binding.root, getString(R.string.msg_home_fail))
+                requireContext().showSnackbar(binding.root, getString(R.string.msg_home_fail))
                 Log.e("GET_FOLLOWER_LIST", "message : " + t.message)
             }
         })

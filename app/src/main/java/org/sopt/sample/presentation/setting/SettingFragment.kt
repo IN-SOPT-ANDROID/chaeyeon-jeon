@@ -15,7 +15,8 @@ class SettingFragment : Fragment() {
         get() = requireNotNull(_binding) { "binding value was null." }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSettingBinding.inflate(inflater, container, false)

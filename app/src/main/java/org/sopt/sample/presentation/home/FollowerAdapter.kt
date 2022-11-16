@@ -29,7 +29,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
                     false
                 )
             )
-            else -> throw ClassCastException("Unkown View Type : ${viewType}")
+            else -> throw ClassCastException("Unkown View Type : $viewType")
         }
     }
 
@@ -64,7 +64,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
     }
 
     class FollowerHeaderViewHolder(private val binding: HeaderHomeFollowerBinding) :
-        RecyclerView.ViewHolder(binding.root) {}
+        RecyclerView.ViewHolder(binding.root)
 
     companion object {
         const val VIEW_TYPE_HEADER = 0

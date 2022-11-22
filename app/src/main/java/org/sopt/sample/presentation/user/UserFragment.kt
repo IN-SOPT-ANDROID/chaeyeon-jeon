@@ -1,14 +1,12 @@
-package org.sopt.sample.fragment
+package org.sopt.sample.presentation.user
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import org.sopt.sample.R
-import org.sopt.sample.data.User
-import org.sopt.sample.databinding.FragmentHomeBinding
+import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.databinding.FragmentUserBinding
 
 class UserFragment : Fragment() {
@@ -35,12 +33,14 @@ class UserFragment : Fragment() {
     }
 
     private fun initView() {
-        // 회원정보 받아오기
+        // 로그인 id 받아오기
         val intent = activity?.intent
-        if (intent != null && intent.hasExtra("user")) {
-            val savedUser = intent.getSerializableExtra("user") as User
-            binding.txtName.append(savedUser.id)
-            binding.txtMbti.append(savedUser.mbti)
+        if (intent != null && intent.hasExtra("id")) {
+            val savedUserId = intent.getLongExtra("id", -1L)
+            if (savedUserId == -1L) context?.showSnackbar(
+                binding.root,
+                getString(R.string.msg_error)
+            )
         }
     }
 

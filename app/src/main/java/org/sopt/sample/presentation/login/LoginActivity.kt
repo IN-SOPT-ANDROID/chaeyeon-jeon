@@ -2,25 +2,19 @@ package org.sopt.sample.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import org.sopt.sample.R
 import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
-import org.sopt.sample.base.showToast
-import org.sopt.sample.data.remote.RequestLoginDto
-import org.sopt.sample.data.remote.ResponseLoginDto
 import org.sopt.sample.data.remote.ServicePool
 import org.sopt.sample.databinding.ActivityLoginBinding
 import org.sopt.sample.presentation.MainActivity
 import org.sopt.sample.presentation.signup.SignUpActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val authService = ServicePool.authService
+    private val viewModel by viewModels<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,40 +45,19 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 로그인 API 연결
-            authService.login(
-                RequestLoginDto(
-                    binding.etEmail.text.toString(),
-                    binding.etPwd.text.toString()
-                )
-            ).enqueue(object : Callback<ResponseLoginDto> {
-                override fun onResponse(
-                    call: Call<ResponseLoginDto>,
-                    response: Response<ResponseLoginDto>
-                ) {
-                    // login success
-                    if (response.isSuccessful) {
-                        showToast(getString(R.string.msg_login_success))
-                        Log.d("LOGIN_SUCCESS", "response : " + response.body().toString())
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                            putExtra("id", response.body()?.result?.id)
-                        }
-                        startActivity(intent)
-                        finish()
-                    }
-                    // login fail
-                    else {
-                        showSnackbar(binding.root, getString(R.string.msg_login_fail))
-                        Log.e("LOGIN_FAIL", "message : " + response.message())
-                    }
-                }
+            viewModel.login(binding.etEmail.text.toString(), binding.etPwd.text.toString())
 
-                override fun onFailure(call: Call<ResponseLoginDto>, t: Throwable) {
-                    showSnackbar(binding.root, getString(R.string.msg_error))
-                    Log.e("LOGIN_FAIL", "cause : " + t.cause)
-                    Log.e("LOGIN_FAIL", "message : " + t.message)
+            viewModel.loginResult.observe(this) {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                    putExtra("id", it.result?.id)
                 }
-            })
+                startActivity(intent)
+                finish()
+            }
+
+            viewModel.errorMessage.observe(this) {
+                showSnackbar(binding.root, it)
+            }
         }
     }
 

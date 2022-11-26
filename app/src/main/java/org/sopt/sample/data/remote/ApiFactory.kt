@@ -12,9 +12,19 @@ import org.sopt.sample.api.FollowerService
 import retrofit2.Retrofit
 
 object ApiFactory {
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            ).build()
+    }
+
     val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())) // JSON -> Kotlin
             .build()
     }

@@ -1,23 +1,18 @@
 package org.sopt.sample.presentation.signup
 
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import org.sopt.sample.R
 import org.sopt.sample.base.hideKeyboard
 import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.base.showToast
-import org.sopt.sample.data.remote.RequestSignupDto
-import org.sopt.sample.data.remote.ResponseSignupDto
-import org.sopt.sample.data.remote.ServicePool.authService
 import org.sopt.sample.databinding.ActivitySignUpBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
+    private val viewModel by viewModels<SignUpViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,37 +45,14 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun signupBtnOnClick() {
         binding.btnSignup.setOnClickListener {
-            // 회원가입 API 연결
-            authService.signup(
-                RequestSignupDto(
-                    binding.etEmail.text.toString(),
-                    binding.etPwd.text.toString(),
-                    binding.etName.text.toString()
-                )
-            ).enqueue(object : Callback<ResponseSignupDto> {
-                override fun onResponse(
-                    call: Call<ResponseSignupDto>,
-                    response: Response<ResponseSignupDto>
-                ) {
-                    // signup success
-                    if (response.isSuccessful) {
-                        showToast(getString(R.string.msg_signup_success))
-                        Log.d("SIGNUP_SUCCESS", "response : " + response.body().toString())
-                        finish()
-                    }
-                    // signup fail
-                    else {
-                        showSnackbar(binding.root, getString(R.string.msg_signup_fail))
-                        Log.e("SIGNUP_FAIL", "code : " + response.code())
-                        Log.e("SIGNUP_FAIL", "message : " + response.message())
-                    }
-                }
+            viewModel.signupResult.observe(this) {
+                showToast(getString(R.string.msg_signup_success))
+                finish()
+            }
 
-                override fun onFailure(call: Call<ResponseSignupDto>, t: Throwable) {
-                    showSnackbar(binding.root, getString(R.string.msg_error))
-                    Log.e("SIGNUP_FAIL", "message : " + t.message)
-                }
-            })
+            viewModel.errorMessage.observe(this) {
+                showSnackbar(binding.root, it)
+            }
         }
     }
 }

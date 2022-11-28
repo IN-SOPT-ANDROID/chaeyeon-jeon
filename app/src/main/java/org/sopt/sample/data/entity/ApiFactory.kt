@@ -1,4 +1,4 @@
-package org.sopt.sample.data.remote
+package org.sopt.sample.data.entity
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json

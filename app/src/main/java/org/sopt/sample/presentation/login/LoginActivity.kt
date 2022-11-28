@@ -5,12 +5,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import org.sopt.sample.R
-import org.sopt.sample.base.hideKeyboard
-import org.sopt.sample.base.showSnackbar
-import org.sopt.sample.data.remote.ServicePool
+import org.sopt.sample.data.local.State
 import org.sopt.sample.databinding.ActivityLoginBinding
 import org.sopt.sample.presentation.MainActivity
 import org.sopt.sample.presentation.signup.SignUpActivity
+import org.sopt.sample.util.hideKeyboard
+import org.sopt.sample.util.showSnackbar
+import org.sopt.sample.util.showToast
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -21,13 +22,14 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initView()
+        initHideKeyboard()
         loginBtnOnClick()
         signupBtnOnClick()
+        observeLoginResult()
+        observeErrorMessage()
     }
 
-    private fun initView() {
-        // 키보드 내리기
+    private fun initHideKeyboard() {
         binding.layout.setOnClickListener { this.hideKeyboard() }
     }
 
@@ -46,18 +48,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
             viewModel.login(binding.etEmail.text.toString(), binding.etPwd.text.toString())
-
-            viewModel.loginResult.observe(this) {
-                val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                    putExtra("id", it.result?.id)
-                }
-                startActivity(intent)
-                finish()
-            }
-
-            viewModel.errorMessage.observe(this) {
-                showSnackbar(binding.root, it)
-            }
         }
     }
 
@@ -65,6 +55,27 @@ class LoginActivity : AppCompatActivity() {
         binding.btnSignup.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun observeErrorMessage() {
+        viewModel.stateMessage.observe(this) {
+            when (it) {
+                State.SUCCESS -> showToast(getString(R.string.msg_login_success))
+                State.FAIL -> showSnackbar(binding.root, getString(R.string.msg_login_fail))
+                State.SERVER_ERROR -> showSnackbar(binding.root, getString(R.string.msg_server_error))
+                else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
+            }
+        }
+    }
+
+    private fun observeLoginResult() {
+        viewModel.loginResult.observe(this) {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                putExtra("id", it.result?.id)
+            }
+            startActivity(intent)
+            finish()
         }
     }
 }

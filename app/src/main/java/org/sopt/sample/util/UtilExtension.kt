@@ -1,4 +1,4 @@
-package org.sopt.sample.base
+package org.sopt.sample.util
 
 import android.app.Activity
 import android.content.Context

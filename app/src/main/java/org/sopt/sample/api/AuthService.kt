@@ -1,9 +1,9 @@
 package org.sopt.sample.api
 
-import org.sopt.sample.data.remote.RequestLoginDto
-import org.sopt.sample.data.remote.RequestSignupDto
-import org.sopt.sample.data.remote.ResponseLoginDto
-import org.sopt.sample.data.remote.ResponseSignupDto
+import org.sopt.sample.data.entity.request.RequestLoginDto
+import org.sopt.sample.data.entity.request.RequestSignupDto
+import org.sopt.sample.data.entity.response.ResponseLoginDto
+import org.sopt.sample.data.entity.response.ResponseSignupDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

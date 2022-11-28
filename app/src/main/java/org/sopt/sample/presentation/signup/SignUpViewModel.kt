@@ -1,24 +1,27 @@
 package org.sopt.sample.presentation.signup
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.sopt.sample.data.remote.RequestSignupDto
-import org.sopt.sample.data.remote.ResponseSignupDto
-import org.sopt.sample.data.remote.ServicePool
+import org.sopt.sample.data.local.State
+import org.sopt.sample.data.entity.ServicePool
+import org.sopt.sample.data.entity.request.RequestSignupDto
+import org.sopt.sample.data.entity.response.ResponseSignupDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class SignUpViewModel : ViewModel() {
+    private val authService = ServicePool.authService
+
     private val _signupResult = MutableLiveData<ResponseSignupDto>()
     val signupResult: LiveData<ResponseSignupDto>
         get() = _signupResult
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String>
-        get() = _errorMessage
-    private val authService = ServicePool.authService
+
+    private val _stateMessage = MutableLiveData<State>()
+    val stateMessage: LiveData<State>
+        get() = _stateMessage
 
     fun signup(email: String, password: String, name: String) {
         authService.signup(RequestSignupDto(email, password, name)).enqueue(object :
@@ -28,18 +31,22 @@ class SignUpViewModel : ViewModel() {
                     response: Response<ResponseSignupDto>
                 ) {
                     if (response.isSuccessful) {
+                        Timber.d("SIGNUP SUCCESS")
+                        Timber.d("response : " + response.body())
                         _signupResult.value = response.body()
-                        Log.d("SIGNUP_SUCCESS", "response : " + response.body().toString())
+                        _stateMessage.value = State.SUCCESS
                     } else {
-                        _errorMessage.value = "회원가입에 실패했습니다."
-                        Log.e("SIGNUP_FAIL", "code : " + response.code())
-                        Log.e("SIGNUP_FAIL", "message : " + response.message())
+                        _stateMessage.value = State.FAIL
+                        Timber.e("SIGNUP FAIL")
+                        Timber.e("code : " + response.code())
+                        Timber.e("message : " + response.message())
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseSignupDto>, t: Throwable) {
-                    _errorMessage.value = "오류가 발생하였습니다."
-                    Log.e("SIGNUP_FAIL", "message : " + t.message)
+                    Timber.e("SIGNUP SERVER ERROR")
+                    Timber.e("message : " + t.message)
+                    _stateMessage.value = State.SERVER_ERROR
                 }
             })
     }

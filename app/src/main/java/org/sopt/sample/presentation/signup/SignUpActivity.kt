@@ -5,10 +5,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import org.sopt.sample.R
-import org.sopt.sample.base.hideKeyboard
-import org.sopt.sample.base.showSnackbar
-import org.sopt.sample.base.showToast
+import org.sopt.sample.data.local.State
 import org.sopt.sample.databinding.ActivitySignUpBinding
+import org.sopt.sample.util.hideKeyboard
+import org.sopt.sample.util.showSnackbar
+import org.sopt.sample.util.showToast
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -19,13 +20,13 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initView()
+        initHideKeyboard()
         checkEditText()
         signupBtnOnClick()
+        observeStateMessage()
     }
 
-    private fun initView() {
-        // 키보드 내리기
+    private fun initHideKeyboard() {
         binding.layout.setOnClickListener { this.hideKeyboard() }
     }
 
@@ -49,9 +50,16 @@ class SignUpActivity : AppCompatActivity() {
                 showToast(getString(R.string.msg_signup_success))
                 finish()
             }
+        }
+    }
 
-            viewModel.errorMessage.observe(this) {
-                showSnackbar(binding.root, it)
+    private fun observeStateMessage() {
+        viewModel.stateMessage.observe(this) {
+            when (it) {
+                State.SUCCESS -> showToast(getString(R.string.msg_signup_success))
+                State.FAIL -> showSnackbar(binding.root, getString(R.string.msg_signup_fail))
+                State.SERVER_ERROR -> showSnackbar(binding.root, getString(R.string.msg_server_error))
+                else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }
     }

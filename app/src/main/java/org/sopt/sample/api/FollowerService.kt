@@ -1,6 +1,6 @@
 package org.sopt.sample.api
 
-import org.sopt.sample.data.remote.ResponseGetFollowerListDto
+import org.sopt.sample.data.entity.response.ResponseGetFollowerListDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -11,6 +11,7 @@ import org.sopt.sample.databinding.ActivityMainBinding
 import org.sopt.sample.presentation.home.HomeFragment
 import org.sopt.sample.presentation.setting.SettingFragment
 import org.sopt.sample.presentation.user.UserFragment
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Timber.plant(Timber.DebugTree())
         initNavigationBar()
     }
 

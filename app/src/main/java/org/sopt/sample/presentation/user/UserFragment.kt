@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.sopt.sample.R
-import org.sopt.sample.base.showSnackbar
 import org.sopt.sample.databinding.FragmentUserBinding
+import org.sopt.sample.util.showSnackbar
 
 class UserFragment : Fragment() {
     private var _binding: FragmentUserBinding? = null
@@ -15,7 +15,8 @@ class UserFragment : Fragment() {
         get() = requireNotNull(_binding) { "binding value was null." }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentUserBinding.inflate(inflater, container, false)

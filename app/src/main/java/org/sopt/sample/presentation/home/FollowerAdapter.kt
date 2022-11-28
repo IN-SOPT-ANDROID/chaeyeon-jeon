@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.sopt.sample.data.remote.ResponseGetFollowerListDto
+import org.sopt.sample.data.entity.response.ResponseGetFollowerListDto
 import org.sopt.sample.databinding.HeaderHomeFollowerBinding
 import org.sopt.sample.databinding.ItemHomeFollowerBinding
 

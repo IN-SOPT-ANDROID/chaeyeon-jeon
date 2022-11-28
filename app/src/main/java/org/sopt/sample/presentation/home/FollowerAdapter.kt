@@ -57,7 +57,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
             Glide.with(this.binding.root)
                 .load(follower.avatar)
                 .circleCrop()
-                .into(binding.imgProfile)
+                .into(binding.imgSample)
             binding.txtName.append("${follower.firstName} ${follower.lastName}")
             binding.txtEmail.append(follower.email)
         }

@@ -10,7 +10,7 @@ import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
 import org.sopt.sample.presentation.home.HomeFragment
 import org.sopt.sample.presentation.setting.SettingFragment
-import org.sopt.sample.presentation.user.UserFragment
+import org.sopt.sample.presentation.user.GalleryFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding.bnvHome.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> setCurrentFragment<HomeFragment>()
-                R.id.menu_user -> setCurrentFragment<UserFragment>()
+                R.id.menu_gallery -> setCurrentFragment<GalleryFragment>()
                 R.id.menu_setting -> setCurrentFragment<SettingFragment>()
             }
             true

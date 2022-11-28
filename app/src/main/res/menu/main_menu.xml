@@ -5,9 +5,9 @@
         android:title="@string/home"
         android:icon="@drawable/ic_home" />
     <item
-        android:id="@+id/menu_user"
-        android:title="@string/my_info"
-        android:icon="@drawable/ic_user" />
+        android:id="@+id/menu_gallery"
+        android:title="@string/gallery"
+        android:icon="@drawable/ic_photo" />
     <item
         android:id="@+id/menu_setting"
         android:title="@string/setting"

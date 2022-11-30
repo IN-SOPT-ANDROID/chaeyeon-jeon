@@ -2,7 +2,6 @@ package org.sopt.sample.presentation
 
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -11,17 +10,12 @@ import org.sopt.sample.databinding.ActivityMainBinding
 import org.sopt.sample.presentation.home.HomeFragment
 import org.sopt.sample.presentation.setting.SettingFragment
 import org.sopt.sample.presentation.user.UserFragment
-import timber.log.Timber
+import org.sopt.sample.util.binding.BindingActivity
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
+class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        Timber.plant(Timber.DebugTree())
         initNavigationBar()
     }
 

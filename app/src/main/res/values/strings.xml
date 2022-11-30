@@ -22,6 +22,8 @@
     <string name="msg_pwd_incorrect">잘못된 비밀번호입니다.</string>
     <string name="msg_name_incorrect">잘못된 이름입니다.</string>
 
+    <string name="msg_binding_error">Binding not initialized to reference the view.</string>
+
     <string name="msg_login_null">회원 정보가 존재하지 않습니다.</string>
     <string name="msg_login_success">로그인에 성공했습니다.</string>
     <string name="msg_login_fail">로그인에 실패하였습니다.</string>
@@ -37,6 +39,7 @@
     <string name="label_name">이름 :&#160;</string>
     <string name="label_email">이메일 :&#160;</string>
 
+    <string name="home_name">%s %s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

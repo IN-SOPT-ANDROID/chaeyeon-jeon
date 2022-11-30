@@ -3,24 +3,24 @@ package org.sopt.sample.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import org.sopt.sample.R
 import org.sopt.sample.data.local.State
 import org.sopt.sample.databinding.ActivityLoginBinding
 import org.sopt.sample.presentation.MainActivity
 import org.sopt.sample.presentation.signup.SignUpActivity
+import org.sopt.sample.util.binding.BindingActivity
 import org.sopt.sample.util.hideKeyboard
 import org.sopt.sample.util.showSnackbar
 import org.sopt.sample.util.showToast
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     private val viewModel by viewModels<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.vm = viewModel
 
         initHideKeyboard()
         loginBtnOnClick()
@@ -63,7 +63,10 @@ class LoginActivity : AppCompatActivity() {
             when (it) {
                 State.SUCCESS -> showToast(getString(R.string.msg_login_success))
                 State.FAIL -> showSnackbar(binding.root, getString(R.string.msg_login_fail))
-                State.SERVER_ERROR -> showSnackbar(binding.root, getString(R.string.msg_server_error))
+                State.SERVER_ERROR -> showSnackbar(
+                    binding.root,
+                    getString(R.string.msg_server_error)
+                )
                 else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }

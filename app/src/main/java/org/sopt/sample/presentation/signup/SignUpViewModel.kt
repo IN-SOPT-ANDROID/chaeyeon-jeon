@@ -24,9 +24,9 @@ class SignUpViewModel : ViewModel() {
     val pwdText = MutableLiveData<String>()
     val nameText = MutableLiveData<String>()
 
-    val isValidEmail = Transformations.map(emailText) { emailText.value?.let { it -> checkEmail(it) } }
-    val isValidPwd = Transformations.map(pwdText) { pwdText.value?.let { it -> checkPwd(it) } }
-    val isValidName = Transformations.map(nameText) { nameText.value?.let { it -> checkName(it) } }
+    val isValidEmail = Transformations.map(emailText) { checkEmail(it) }
+    val isValidPwd = Transformations.map(pwdText) { checkPwd(it) }
+    val isValidName = Transformations.map(nameText) { checkName(it) }
 
     /** 서버에 회원가입 요청 */
     fun signup(email: String, password: String, name: String) {

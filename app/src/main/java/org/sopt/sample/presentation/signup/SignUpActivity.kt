@@ -20,6 +20,7 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
         initHideKeyboard()
         signupBtnOnClick()
         observeStateMessage()
+        observeEditTextValidity()
     }
 
     private fun initHideKeyboard() {
@@ -39,7 +40,10 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(this) {
             when (it) {
-                State.SUCCESS -> showToast(getString(R.string.msg_signup_success))
+                State.SUCCESS -> {
+                    showToast(getString(R.string.msg_signup_success))
+                    finish()
+                }
                 State.FAIL -> showSnackbar(binding.root, getString(R.string.msg_signup_fail))
                 State.SERVER_ERROR -> showSnackbar(
                     binding.root,
@@ -48,5 +52,22 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
                 else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }
+    }
+
+    private fun observeEditTextValidity() {
+        viewModel.isValidEmail.observe(this) {
+            checkSingupBtn()
+        }
+        viewModel.isValidPwd.observe(this) {
+            checkSingupBtn()
+        }
+        viewModel.isValidName.observe(this) {
+            checkSingupBtn()
+        }
+    }
+
+    private fun checkSingupBtn() {
+        binding.btnSignup.isEnabled =
+            viewModel.isValidEmail.value == true && viewModel.isValidPwd.value == true && viewModel.isValidName.value == true
     }
 }

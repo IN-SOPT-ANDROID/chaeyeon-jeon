@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="20dp"
-        android:paddingVertical="30dp"
         tools:context=".presentation.home.HomeFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -22,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
+            android:paddingBottom="30dp"
+            android:clipToPadding="false"
             tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/item_home_follower"
             tools:spanCount="2" />

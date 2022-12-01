@@ -12,6 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.util.regex.Pattern
 
 class SignUpViewModel : ViewModel() {
     private val authService = ServicePool.authService
@@ -29,12 +30,12 @@ class SignUpViewModel : ViewModel() {
 
     /** 이메일 유효성 검사 */
     private fun checkEmail(email: String): Boolean {
-        return email.isEmpty() || email.length in 6..10
+        return email.isEmpty() || Pattern.matches(EMAIL_PATTERN, email)
     }
 
     /** 비밀번호 유효성 검사 */
     private fun checkPwd(pwd: String): Boolean {
-        return pwd.isEmpty() || pwd.length in 6..12
+        return pwd.isEmpty() || Pattern.matches(PWD_PATTERN, pwd)
     }
 
     /** 서버에 회원가입 요청 */
@@ -63,5 +64,10 @@ class SignUpViewModel : ViewModel() {
                     _stateMessage.value = State.SERVER_ERROR
                 }
             })
+    }
+
+    companion object {
+        private const val EMAIL_PATTERN = """^(?=.*[a-zA-Z])(?=.*\d).{6,10}$"""
+        private const val PWD_PATTERN = """^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()?]).{6,12}$"""
     }
 }

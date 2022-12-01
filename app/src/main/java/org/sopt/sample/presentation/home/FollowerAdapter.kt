@@ -56,11 +56,6 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
         RecyclerView.ViewHolder(binding.root) {
         fun setFollower(follower: ResponseGetFollowerListDto.Follower) {
             binding.data = follower
-            Glide.with(this.binding.root)
-                .load(follower.avatar)
-                .circleCrop()
-                .error(R.drawable.img_photo_error)
-                .into(binding.imgProfile)
         }
     }
 

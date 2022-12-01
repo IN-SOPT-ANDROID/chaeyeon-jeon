@@ -3,7 +3,7 @@ package org.sopt.sample.presentation.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.sopt.sample.data.entity.ServicePool
+import org.sopt.sample.api.ServicePool
 import org.sopt.sample.data.entity.request.RequestLoginDto
 import org.sopt.sample.data.entity.response.ResponseLoginDto
 import org.sopt.sample.data.local.State
@@ -24,8 +24,21 @@ class LoginViewModel : ViewModel() {
     val stateMessage: LiveData<State>
         get() = _stateMessage
 
+    val emailText = MutableLiveData("")
+    val pwdText = MutableLiveData("")
+
     /** 서버에 로그인 요청 */
     fun login(email: String, password: String) {
+        if (!checkEmail(email)) {
+            _stateMessage.value = State.LOGIN_INCORRECT_EMAIL
+            return
+        }
+
+        if (!checkPwd(password)) {
+            _stateMessage.value = State.LOGIN_INCORRECT_PWD
+            return
+        }
+
         authService.login(RequestLoginDto(email, password))
             .enqueue(object : Callback<ResponseLoginDto> {
                 override fun onResponse(
@@ -51,5 +64,15 @@ class LoginViewModel : ViewModel() {
                     _stateMessage.value = State.SERVER_ERROR
                 }
             })
+    }
+
+    /** 이메일 유효성 검사 */
+    private fun checkEmail(email: String): Boolean {
+        return email.length in 6..10
+    }
+
+    /** 비밀번호 유효성 검사 */
+    private fun checkPwd(pwd: String): Boolean {
+        return pwd.length in 6..12
     }
 }

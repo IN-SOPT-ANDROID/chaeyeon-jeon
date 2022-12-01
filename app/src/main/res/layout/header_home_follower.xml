@@ -12,8 +12,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
         android:text="@string/title_home"
+        android:textColor="@color/grey_800"
         android:textSize="18sp"
         android:textStyle="bold"/>
 

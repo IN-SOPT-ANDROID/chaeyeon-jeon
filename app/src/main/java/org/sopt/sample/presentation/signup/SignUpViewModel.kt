@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import org.sopt.sample.data.entity.ServicePool
+import org.sopt.sample.api.ServicePool
 import org.sopt.sample.data.entity.request.RequestSignupDto
 import org.sopt.sample.data.entity.response.ResponseSignupDto
 import org.sopt.sample.data.local.State
@@ -20,13 +20,22 @@ class SignUpViewModel : ViewModel() {
     val stateMessage: LiveData<State>
         get() = _stateMessage
 
-    val emailText = MutableLiveData<String>()
-    val pwdText = MutableLiveData<String>()
-    val nameText = MutableLiveData<String>()
+    val emailText = MutableLiveData("")
+    val pwdText = MutableLiveData("")
+    val nameText = MutableLiveData("")
 
     val isValidEmail = Transformations.map(emailText) { checkEmail(it) }
     val isValidPwd = Transformations.map(pwdText) { checkPwd(it) }
-    val isValidName = Transformations.map(nameText) { checkName(it) }
+
+    /** 이메일 유효성 검사 */
+    private fun checkEmail(email: String): Boolean {
+        return email.isEmpty() || email.length in 6..10
+    }
+
+    /** 비밀번호 유효성 검사 */
+    private fun checkPwd(pwd: String): Boolean {
+        return pwd.isEmpty() || pwd.length in 6..12
+    }
 
     /** 서버에 회원가입 요청 */
     fun signup(email: String, password: String, name: String) {
@@ -41,10 +50,10 @@ class SignUpViewModel : ViewModel() {
                         Timber.d("response : " + response.body())
                         _stateMessage.value = State.SUCCESS
                     } else {
-                        _stateMessage.value = State.FAIL
                         Timber.e("SIGNUP FAIL")
                         Timber.e("code : " + response.code())
                         Timber.e("message : " + response.message())
+                        _stateMessage.value = State.FAIL
                     }
                 }
 
@@ -54,20 +63,5 @@ class SignUpViewModel : ViewModel() {
                     _stateMessage.value = State.SERVER_ERROR
                 }
             })
-    }
-
-    /** 이메일 유효성 검사 */
-    fun checkEmail(email: String): Boolean {
-        return email.length in 6..10
-    }
-
-    /** 비밀번호 유효성 검사 */
-    fun checkPwd(pwd: String): Boolean {
-        return pwd.length in 6..12
-    }
-
-    /** 이름 유효성 검사 */
-    fun checkName(name: String): Boolean {
-        return name.isNotEmpty()
     }
 }

@@ -1,4 +1,4 @@
-package org.sopt.sample.data.entity
+package org.sopt.sample.api
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -7,8 +7,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.sample.BuildConfig.BASE_URL
 import org.sopt.sample.BuildConfig.REQRES_URL
-import org.sopt.sample.api.AuthService
-import org.sopt.sample.api.FollowerService
 import retrofit2.Retrofit
 
 object ApiFactory {

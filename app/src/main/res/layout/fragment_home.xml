@@ -7,13 +7,14 @@
             name="vm"
             type="org.sopt.sample.presentation.home.HomeViewModel" />
     </data>
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="10dp"
-        android:paddingBottom="10dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="30dp"
         tools:context=".presentation.home.HomeFragment">
 
         <androidx.recyclerview.widget.RecyclerView

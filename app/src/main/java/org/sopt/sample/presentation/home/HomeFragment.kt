@@ -11,14 +11,15 @@ import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.presentation.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
 import org.sopt.sample.presentation.home.FollowerAdapter.Companion.VIEW_TYPE_ITEM
 import org.sopt.sample.util.binding.BindingFragment
-import org.sopt.sample.util.showSnackbar
+import org.sopt.sample.util.extension.showSnackbar
 
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private val viewModel by viewModels<HomeViewModel>()
     private val followerAdapter by lazy { FollowerAdapter(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vm = viewModel
         initAdapter()
         getFollowerList()
         observeFollowerList()
@@ -48,17 +49,17 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
     }
 
     private fun getFollowerList() {
-        homeViewModel.getFollowerList()
+        viewModel.getFollowerList()
     }
 
     private fun observeFollowerList() {
-        homeViewModel.followerList.observe(viewLifecycleOwner) {
+        viewModel.followerList.observe(viewLifecycleOwner) {
             followerAdapter.setFollowerList(it)
         }
     }
 
     private fun observeStateMessage() {
-        homeViewModel.stateMessage.observe(viewLifecycleOwner) {
+        viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
                 State.SUCCESS -> return@observe
                 State.NULL -> requireContext().showSnackbar(

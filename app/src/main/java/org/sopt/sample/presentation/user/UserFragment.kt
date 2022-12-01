@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.sopt.sample.R
 import org.sopt.sample.databinding.FragmentUserBinding
-import org.sopt.sample.util.showSnackbar
+import org.sopt.sample.util.extension.showSnackbar
 
 class UserFragment : Fragment() {
     private var _binding: FragmentUserBinding? = null

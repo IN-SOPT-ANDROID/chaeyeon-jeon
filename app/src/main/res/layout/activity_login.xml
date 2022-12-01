@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
         <variable
@@ -7,9 +10,7 @@
             type="org.sopt.sample.presentation.login.LoginViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:text="@string/title_login"
+            android:textColor="@color/grey_800"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +45,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/shape_grey_line_6_rect"
             android:hint="@string/hint_email"
+            android:maxLength="20"
+            android:paddingHorizontal="16sp"
+            android:paddingVertical="12dp"
+            android:singleLine="true"
+            android:text="@={vm.emailText}"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_email_title"
@@ -64,8 +73,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/shape_grey_line_6_rect"
             android:hint="@string/hint_pwd"
             android:inputType="textPassword"
+            android:paddingHorizontal="16sp"
+            android:paddingVertical="12dp"
+            android:text="@={vm.pwdText}"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_pwd_title"
@@ -76,6 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:backgroundTint="@color/grey_800"
+            android:onClick="@{() -> vm.login(vm.emailText, vm.pwdText)}"
             android:paddingVertical="10dp"
             android:text="@string/login" />
 
@@ -84,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:backgroundTint="@color/grey_800"
             android:paddingVertical="10dp"
             android:text="@string/signup" />
 

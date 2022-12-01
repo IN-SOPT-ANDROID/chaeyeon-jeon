@@ -3,7 +3,7 @@ package org.sopt.sample.presentation.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.sopt.sample.data.entity.ServicePool
+import org.sopt.sample.api.ServicePool
 import org.sopt.sample.data.entity.response.ResponseGetFollowerListDto
 import org.sopt.sample.data.entity.response.ResponseGetFollowerListDto.Follower
 import org.sopt.sample.data.local.State

@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.request.RequestSignupDto
 import org.sopt.sample.data.local.State
 import org.sopt.sample.data.repository.AuthRepository
+import retrofit2.HttpException
 import timber.log.Timber
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -40,21 +41,26 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.signup(RequestSignupDto(email, password, name))
                 .onSuccess { response ->
-                    if (response.status in 200..299) {
-                        Timber.d("SIGNUP SUCCESS")
-                        Timber.d("response : $response")
-                        _stateMessage.value = State.SUCCESS
-                    } else {
-                        Timber.e("SIGNUP FAIL")
-                        Timber.e("status code : $response.status")
-                        Timber.e("message : $response.message")
-                        _stateMessage.value = State.FAIL
-                    }
+                    Timber.d("SIGNUP SUCCESS")
+                    Timber.d("response : $response")
+                    _stateMessage.value = State.SUCCESS
                 }
                 .onFailure {
-                    Timber.e("SIGNUP SERVER ERROR")
-                    Timber.e("message : " + it.message)
-                    _stateMessage.value = State.SERVER_ERROR
+                    if (it is HttpException) {
+                        when (it.code()) {
+                            SIGNUP_FAIL_CODE -> {
+                                Timber.e("SIGNUP FAIL")
+                                Timber.e("status code : ${it.code()}")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = State.FAIL
+                            }
+                            else -> {
+                                Timber.e("SIGNUP SERVER ERROR")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = State.SERVER_ERROR
+                            }
+                        }
+                    }
                 }
         }
     }
@@ -62,5 +68,7 @@ class SignUpViewModel @Inject constructor(
     companion object {
         private const val EMAIL_PATTERN = """^(?=.*[a-zA-Z])(?=.*\d).{6,10}$"""
         private const val PWD_PATTERN = """^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()?]).{6,12}$"""
+
+        private const val SIGNUP_FAIL_CODE = 400
     }
 }

@@ -28,6 +28,6 @@
         android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 </manifest>

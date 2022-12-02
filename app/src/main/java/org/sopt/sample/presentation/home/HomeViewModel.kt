@@ -39,11 +39,7 @@ class HomeViewModel @Inject constructor(
 
                         Timber.d("GET FOLLOWER LIST SUCCESS")
                         Timber.d("response : $response")
-                        val tempFollowerList = mutableListOf<Follower>()
-                        for (follower in response.body()?.data!!) {
-                            tempFollowerList.add(follower)
-                        }
-                        _followerList.value = tempFollowerList
+                        _followerList.value = response.body()?.data
                         _stateMessage.value = State.SUCCESS
                     } else {
                         Timber.e("GET FOLLOWER LIST FAIL")

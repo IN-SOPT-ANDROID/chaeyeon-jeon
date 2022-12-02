@@ -44,7 +44,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.login(RequestLoginDto(email, password))
                 .onSuccess { response ->
-                    if (response.status in 200..300) {
+                    if (response.status in 200..299) {
                         Timber.d("LOGIN SUCCESS")
                         Timber.d("response : $response")
                         _loginResult.value = response

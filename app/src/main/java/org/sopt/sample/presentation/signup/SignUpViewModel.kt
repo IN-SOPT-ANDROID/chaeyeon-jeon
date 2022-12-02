@@ -40,7 +40,7 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.signup(RequestSignupDto(email, password, name))
                 .onSuccess { response ->
-                    if (response.status in 200..300) {
+                    if (response.status in 200..299) {
                         Timber.d("SIGNUP SUCCESS")
                         Timber.d("response : $response")
                         _stateMessage.value = State.SUCCESS

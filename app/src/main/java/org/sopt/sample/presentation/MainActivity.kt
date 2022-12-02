@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
 import org.sopt.sample.presentation.home.HomeFragment
@@ -12,6 +13,7 @@ import org.sopt.sample.presentation.setting.SettingFragment
 import org.sopt.sample.presentation.user.UserFragment
 import org.sopt.sample.util.binding.BindingActivity
 
+@AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

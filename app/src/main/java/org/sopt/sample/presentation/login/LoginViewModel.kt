@@ -3,18 +3,20 @@ package org.sopt.sample.presentation.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.sopt.sample.api.ServicePool
-import org.sopt.sample.data.entity.request.RequestLoginDto
-import org.sopt.sample.data.entity.response.ResponseLoginDto
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.sample.data.dto.request.RequestLoginDto
+import org.sopt.sample.data.dto.response.ResponseLoginDto
 import org.sopt.sample.data.local.State
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.sopt.sample.data.repository.AuthRepository
 import timber.log.Timber
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
-    private val authService = ServicePool.authService
-
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     // Backing Property
     private val _loginResult = MutableLiveData<ResponseLoginDto>()
     val loginResult: LiveData<ResponseLoginDto>
@@ -30,40 +32,36 @@ class LoginViewModel : ViewModel() {
     /** 서버에 로그인 요청 */
     fun login(email: String, password: String) {
         if (!checkEmail(email)) {
-            _stateMessage.value = State.LOGIN_INCORRECT_EMAIL
+            _stateMessage.value = State.INCORRECT_EMAIL
             return
         }
 
         if (!checkPwd(password)) {
-            _stateMessage.value = State.LOGIN_INCORRECT_PWD
+            _stateMessage.value = State.INCORRECT_PWD
             return
         }
 
-        authService.login(RequestLoginDto(email, password))
-            .enqueue(object : Callback<ResponseLoginDto> {
-                override fun onResponse(
-                    call: Call<ResponseLoginDto>,
-                    response: Response<ResponseLoginDto>
-                ) {
-                    if (response.isSuccessful) {
+        viewModelScope.launch {
+            authRepository.login(RequestLoginDto(email, password))
+                .onSuccess { response ->
+                    if (response.status in 200..300) {
                         Timber.d("LOGIN SUCCESS")
-                        Timber.d("response : " + response.body())
-                        _loginResult.value = response.body()
+                        Timber.d("response : $response")
+                        _loginResult.value = response
                         _stateMessage.value = State.SUCCESS
                     } else {
                         Timber.e("LOGIN FAIL")
-                        Timber.e("code : " + response.code())
-                        Timber.e("message : " + response.message())
+                        Timber.e("status code : $response.status")
+                        Timber.e("message : $response.message")
                         _stateMessage.value = State.FAIL
                     }
                 }
-
-                override fun onFailure(call: Call<ResponseLoginDto>, t: Throwable) {
+                .onFailure {
                     Timber.e("LOGIN SERVER ERROR")
-                    Timber.e("message : " + t.message)
+                    Timber.e("message : " + it.message)
                     _stateMessage.value = State.SERVER_ERROR
                 }
-            })
+        }
     }
 
     /** 이메일 유효성 검사 */

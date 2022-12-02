@@ -4,9 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import org.sopt.sample.R
-import org.sopt.sample.data.entity.response.ResponseGetFollowerListDto
+import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto
 import org.sopt.sample.databinding.HeaderHomeFollowerBinding
 import org.sopt.sample.databinding.ItemHomeFollowerBinding
 
@@ -30,7 +28,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
                     false
                 )
             )
-            else -> throw ClassCastException("Unkown View Type : $viewType")
+            else -> throw ClassCastException("Unknown View Type : $viewType")
         }
     }
 

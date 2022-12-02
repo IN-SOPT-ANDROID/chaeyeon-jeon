@@ -3,6 +3,7 @@ package org.sopt.sample.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.data.local.State
 import org.sopt.sample.databinding.ActivityLoginBinding
@@ -13,6 +14,7 @@ import org.sopt.sample.util.extension.hideKeyboard
 import org.sopt.sample.util.extension.showSnackbar
 import org.sopt.sample.util.extension.showToast
 
+@AndroidEntryPoint
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     private val viewModel by viewModels<LoginViewModel>()
 
@@ -41,11 +43,11 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         viewModel.stateMessage.observe(this) {
             when (it) {
                 State.SUCCESS -> showToast(getString(R.string.msg_login_success))
-                State.LOGIN_INCORRECT_EMAIL -> showSnackbar(
+                State.INCORRECT_EMAIL -> showSnackbar(
                     binding.root,
                     getString(R.string.msg_email_incorrect)
                 )
-                State.LOGIN_INCORRECT_PWD -> showSnackbar(
+                State.INCORRECT_PWD -> showSnackbar(
                     binding.root,
                     getString(R.string.msg_pwd_incorrect)
                 )

@@ -1,22 +1,19 @@
 package org.sopt.sample.presentation.signup
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import org.sopt.sample.api.ServicePool
-import org.sopt.sample.data.entity.request.RequestSignupDto
-import org.sopt.sample.data.entity.response.ResponseSignupDto
+import androidx.lifecycle.* // ktlint-disable no-wildcard-imports
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.sample.data.dto.request.RequestSignupDto
 import org.sopt.sample.data.local.State
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.sopt.sample.data.repository.AuthRepository
 import timber.log.Timber
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
-    private val authService = ServicePool.authService
-
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     private val _stateMessage = MutableLiveData<State>()
     val stateMessage: LiveData<State>
         get() = _stateMessage
@@ -40,30 +37,26 @@ class SignUpViewModel : ViewModel() {
 
     /** 서버에 회원가입 요청 */
     fun signup(email: String, password: String, name: String) {
-        authService.signup(RequestSignupDto(email, password, name)).enqueue(object :
-                Callback<ResponseSignupDto> {
-                override fun onResponse(
-                    call: Call<ResponseSignupDto>,
-                    response: Response<ResponseSignupDto>
-                ) {
-                    if (response.isSuccessful) {
+        viewModelScope.launch {
+            authRepository.signup(RequestSignupDto(email, password, name))
+                .onSuccess { response ->
+                    if (response.status in 200..300) {
                         Timber.d("SIGNUP SUCCESS")
-                        Timber.d("response : " + response.body())
+                        Timber.d("response : $response")
                         _stateMessage.value = State.SUCCESS
                     } else {
                         Timber.e("SIGNUP FAIL")
-                        Timber.e("code : " + response.code())
-                        Timber.e("message : " + response.message())
+                        Timber.e("status code : $response.status")
+                        Timber.e("message : $response.message")
                         _stateMessage.value = State.FAIL
                     }
                 }
-
-                override fun onFailure(call: Call<ResponseSignupDto>, t: Throwable) {
+                .onFailure {
                     Timber.e("SIGNUP SERVER ERROR")
-                    Timber.e("message : " + t.message)
+                    Timber.e("message : " + it.message)
                     _stateMessage.value = State.SERVER_ERROR
                 }
-            })
+        }
     }
 
     companion object {

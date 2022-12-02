@@ -8,6 +8,6 @@ import javax.inject.Inject
 class FollowerRepositoryImpl @Inject constructor(
     private val followerDataSource: FollowerDataSource
 ) : FollowerRepository {
-    override suspend fun getFollowerList(page: Int): Result<Response<ResponseGetFollowerListDto>> =
+    override suspend fun getFollowerList(page: Int): Result<ResponseGetFollowerListDto> =
         kotlin.runCatching { followerDataSource.getFollowerList(page) }
 }

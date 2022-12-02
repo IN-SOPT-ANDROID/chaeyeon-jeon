@@ -35,10 +35,7 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
                     finish()
                 }
                 State.FAIL -> showSnackbar(binding.root, getString(R.string.msg_signup_fail))
-                State.SERVER_ERROR -> showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_server_error)
-                )
+                State.SERVER_ERROR -> showSnackbar(binding.root, getString(R.string.msg_server_error))
                 else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }

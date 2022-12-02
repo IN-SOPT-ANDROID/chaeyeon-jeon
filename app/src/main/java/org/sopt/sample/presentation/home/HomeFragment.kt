@@ -25,7 +25,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
 
         initFollowerRecyclerView()
         getFollowerList()
-        observeFollowerList()
         observeStateMessage()
     }
 
@@ -51,23 +50,15 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
         viewModel.getFollowerList()
     }
 
-    private fun observeFollowerList() {
-        viewModel.followerList.observe(viewLifecycleOwner) {
-            followerAdapter.setFollowerList(it)
-        }
-    }
-
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
-                State.SUCCESS -> return@observe
+                State.SUCCESS -> viewModel.followerList.value?.let { it ->
+                    followerAdapter.setFollowerList(it)
+                }
                 State.NULL -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_home_null)
-                )
-                State.FAIL -> requireContext().showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_home_fail)
                 )
                 State.SERVER_ERROR -> requireContext().showSnackbar(
                     binding.root,

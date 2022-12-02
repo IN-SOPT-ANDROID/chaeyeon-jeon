@@ -29,29 +29,22 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             followerRepository.getFollowerList(1)
                 .onSuccess { response ->
-                    if (response.isSuccessful) {
-                        // 팔로워가 존재하지 않는 경우
-                        if (response.body()?.data == null) {
-                            Timber.d("GET FOLLOWER LIST IS NULL")
-                            _stateMessage.value = State.NULL
-                            return@onSuccess
-                        }
-
-                        Timber.d("GET FOLLOWER LIST SUCCESS")
-                        Timber.d("response : $response")
-                        _followerList.value = response.body()?.data
-                        _stateMessage.value = State.SUCCESS
-                    } else {
-                        Timber.e("GET FOLLOWER LIST FAIL")
-                        Timber.e("code : $response.code()")
-                        Timber.e("message : $response.message()")
-                        _stateMessage.value = State.FAIL
+                    // 팔로워가 존재하지 않는 경우
+                    if (response.data == null) {
+                        Timber.d("GET FOLLOWER LIST IS NULL")
+                        _stateMessage.value = State.NULL
+                        return@onSuccess
                     }
+
+                    Timber.d("GET FOLLOWER LIST SUCCESS")
+                    Timber.d("response : $response")
+                    _followerList.value = response.data
+                    _stateMessage.value = State.SUCCESS
                 }
                 .onFailure {
-                    _stateMessage.value = State.SERVER_ERROR
                     Timber.e("GET FOLLOWER LIST SERVER ERROR")
                     Timber.e("message : $it.message")
+                    _stateMessage.value = State.SERVER_ERROR
                 }
         }
     }

@@ -24,7 +24,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
         initHideKeyboard()
         signupBtnOnClick()
-        observeLoginResult()
         observeStateMessage()
     }
 
@@ -42,7 +41,12 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(this) {
             when (it) {
-                State.SUCCESS -> showToast(getString(R.string.msg_login_success))
+                State.SUCCESS -> {
+                    showToast(getString(R.string.msg_login_success))
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
                 State.INCORRECT_EMAIL -> showSnackbar(
                     binding.root,
                     getString(R.string.msg_email_incorrect)
@@ -58,16 +62,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
                 )
                 else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
-        }
-    }
-
-    private fun observeLoginResult() {
-        viewModel.loginResult.observe(this) {
-            val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                putExtra("id", it.result?.id)
-            }
-            startActivity(intent)
-            finish()
         }
     }
 }

@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.request.RequestLoginDto
-import org.sopt.sample.data.dto.response.ResponseLoginDto
 import org.sopt.sample.data.local.State
 import org.sopt.sample.data.repository.AuthRepository
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,10 +18,6 @@ class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
     // Backing Property
-    private val _loginResult = MutableLiveData<ResponseLoginDto>()
-    val loginResult: LiveData<ResponseLoginDto>
-        get() = _loginResult
-
     private val _stateMessage = MutableLiveData<State>()
     val stateMessage: LiveData<State>
         get() = _stateMessage
@@ -44,22 +40,26 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.login(RequestLoginDto(email, password))
                 .onSuccess { response ->
-                    if (response.status in 200..299) {
-                        Timber.d("LOGIN SUCCESS")
-                        Timber.d("response : $response")
-                        _loginResult.value = response
-                        _stateMessage.value = State.SUCCESS
-                    } else {
-                        Timber.e("LOGIN FAIL")
-                        Timber.e("status code : $response.status")
-                        Timber.e("message : $response.message")
-                        _stateMessage.value = State.FAIL
-                    }
+                    Timber.d("LOGIN SUCCESS")
+                    Timber.d("response : $response")
+                    _stateMessage.value = State.SUCCESS
                 }
                 .onFailure {
-                    Timber.e("LOGIN SERVER ERROR")
-                    Timber.e("message : " + it.message)
-                    _stateMessage.value = State.SERVER_ERROR
+                    if (it is HttpException) {
+                        when (it.code()) {
+                            LOGIN_FAIL_CODE -> {
+                                Timber.e("LOGIN FAIL")
+                                Timber.e("status code : ${it.code()}")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = State.FAIL
+                            }
+                            else -> {
+                                Timber.e("LOGIN SERVER ERROR")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = State.SERVER_ERROR
+                            }
+                        }
+                    }
                 }
         }
     }
@@ -72,5 +72,9 @@ class LoginViewModel @Inject constructor(
     /** 비밀번호 유효성 검사 */
     private fun checkPwd(pwd: String): Boolean {
         return pwd.length in 6..12
+    }
+
+    companion object {
+        private const val LOGIN_FAIL_CODE = 400
     }
 }

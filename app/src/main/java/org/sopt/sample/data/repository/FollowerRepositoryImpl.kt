@@ -2,7 +2,6 @@ package org.sopt.sample.data.repository
 
 import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto
 import org.sopt.sample.data.source.FollowerDataSource
-import retrofit2.Response
 import javax.inject.Inject
 
 class FollowerRepositoryImpl @Inject constructor(

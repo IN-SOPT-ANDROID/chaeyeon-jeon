@@ -1,4 +1,4 @@
-package org.sopt.sample.presentation
+package org.sopt.sample.presentation.main
 
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
@@ -8,9 +8,9 @@ import androidx.fragment.app.replace
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
-import org.sopt.sample.presentation.home.HomeFragment
-import org.sopt.sample.presentation.setting.SettingFragment
-import org.sopt.sample.presentation.user.UserFragment
+import org.sopt.sample.presentation.main.home.HomeFragment
+import org.sopt.sample.presentation.main.setting.SettingFragment
+import org.sopt.sample.presentation.main.user.UserFragment
 import org.sopt.sample.util.binding.BindingActivity
 
 @AndroidEntryPoint

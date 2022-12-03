@@ -7,7 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.data.local.State
 import org.sopt.sample.databinding.ActivityLoginBinding
-import org.sopt.sample.presentation.MainActivity
+import org.sopt.sample.presentation.main.MainActivity
 import org.sopt.sample.presentation.signup.SignUpActivity
 import org.sopt.sample.util.binding.BindingActivity
 import org.sopt.sample.util.extension.hideKeyboard

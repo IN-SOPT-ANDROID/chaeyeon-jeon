@@ -1,4 +1,4 @@
-package org.sopt.sample.presentation.setting
+package org.sopt.sample.presentation.main.setting
 
 import android.content.Intent
 import android.os.Bundle

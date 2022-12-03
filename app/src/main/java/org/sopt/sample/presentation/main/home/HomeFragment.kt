@@ -1,4 +1,4 @@
-package org.sopt.sample.presentation.home
+package org.sopt.sample.presentation.main.home
 
 import android.os.Bundle
 import android.view.View
@@ -9,8 +9,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.data.local.State
 import org.sopt.sample.databinding.FragmentHomeBinding
-import org.sopt.sample.presentation.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
-import org.sopt.sample.presentation.home.FollowerAdapter.Companion.VIEW_TYPE_ITEM
+import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
+import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_ITEM
 import org.sopt.sample.util.binding.BindingFragment
 import org.sopt.sample.util.extension.showSnackbar
 
@@ -34,9 +34,9 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
         val layoutManager = GridLayoutManager(activity, 2)
         layoutManager.spanSizeLookup = object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                when (followerAdapter.getItemViewType(position)) {
-                    VIEW_TYPE_HEADER -> return 2
-                    VIEW_TYPE_ITEM -> return 1
+                return when (followerAdapter.getItemViewType(position)) {
+                    VIEW_TYPE_HEADER -> 2
+                    VIEW_TYPE_ITEM -> 1
                     else -> throw ClassCastException(
                         "Unknown View Type : ${followerAdapter.getItemViewType(position)}"
                     )
@@ -53,7 +53,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
-                State.SUCCESS -> viewModel.followerList.value?.let { it ->
+                State.SUCCESS -> viewModel.followerList.value?.let {
                     followerAdapter.setFollowerList(it)
                 }
                 State.NULL -> requireContext().showSnackbar(

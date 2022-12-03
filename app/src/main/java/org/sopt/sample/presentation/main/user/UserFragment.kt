@@ -1,4 +1,4 @@
-package org.sopt.sample.presentation.user
+package org.sopt.sample.presentation.main.user
 
 import android.os.Bundle
 import android.view.LayoutInflater

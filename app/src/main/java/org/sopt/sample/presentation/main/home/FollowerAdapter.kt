@@ -1,11 +1,10 @@
-package org.sopt.sample.presentation.home
+package org.sopt.sample.presentation.main.home
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import org.sopt.sample.data.remote.ResponseGetFollowerListDto
+import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto
 import org.sopt.sample.databinding.HeaderHomeFollowerBinding
 import org.sopt.sample.databinding.ItemHomeFollowerBinding
 
@@ -29,7 +28,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
                     false
                 )
             )
-            else -> throw ClassCastException("Unkown View Type : $viewType")
+            else -> throw ClassCastException("Unknown View BaseUrlType : $viewType")
         }
     }
 
@@ -54,12 +53,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
     class FollowerViewHolder(private val binding: ItemHomeFollowerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setFollower(follower: ResponseGetFollowerListDto.Follower) {
-            Glide.with(this.binding.root)
-                .load(follower.avatar)
-                .circleCrop()
-                .into(binding.imgProfile)
-            binding.txtName.append("${follower.firstName} ${follower.lastName}")
-            binding.txtEmail.append(follower.email)
+            binding.data = follower
         }
     }
 

@@ -1,24 +1,22 @@
-package org.sopt.sample.presentation
+package org.sopt.sample.presentation.main
 
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
-import org.sopt.sample.presentation.home.HomeFragment
-import org.sopt.sample.presentation.setting.SettingFragment
-import org.sopt.sample.presentation.user.UserFragment
+import org.sopt.sample.presentation.main.home.HomeFragment
+import org.sopt.sample.presentation.main.setting.SettingFragment
+import org.sopt.sample.presentation.main.user.UserFragment
+import org.sopt.sample.util.binding.BindingActivity
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
+@AndroidEntryPoint
+class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         initNavigationBar()
     }

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.data.local.State
+import org.sopt.sample.data.local.UiState
 import org.sopt.sample.databinding.ActivitySignUpBinding
 import org.sopt.sample.util.binding.BindingActivity
 import org.sopt.sample.util.extension.hideKeyboard
@@ -30,12 +30,12 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(this) {
             when (it) {
-                State.SUCCESS -> {
+                UiState.SUCCESS -> {
                     showToast(getString(R.string.msg_signup_success))
                     finish()
                 }
-                State.FAIL -> showSnackbar(binding.root, getString(R.string.msg_signup_fail))
-                State.SERVER_ERROR -> showSnackbar(binding.root, getString(R.string.msg_server_error))
+                UiState.FAIL -> showSnackbar(binding.root, getString(R.string.msg_signup_fail))
+                UiState.SERVER_ERROR -> showSnackbar(binding.root, getString(R.string.msg_server_error))
                 else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }

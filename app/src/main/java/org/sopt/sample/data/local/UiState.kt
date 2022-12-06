@@ -1,6 +1,6 @@
 package org.sopt.sample.data.local
 
-enum class State {
+enum class UiState {
     SUCCESS,
     NULL,
     FAIL,

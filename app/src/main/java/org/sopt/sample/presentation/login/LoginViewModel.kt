@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.request.RequestLoginDto
-import org.sopt.sample.data.local.State
+import org.sopt.sample.data.local.UiState
 import org.sopt.sample.data.repository.AuthRepository
 import retrofit2.HttpException
 import timber.log.Timber
@@ -18,8 +18,8 @@ class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
     // Backing Property
-    private val _stateMessage = MutableLiveData<State>()
-    val stateMessage: LiveData<State>
+    private val _stateMessage = MutableLiveData<UiState>()
+    val stateMessage: LiveData<UiState>
         get() = _stateMessage
 
     val emailText = MutableLiveData("")
@@ -28,12 +28,12 @@ class LoginViewModel @Inject constructor(
     /** 서버에 로그인 요청 */
     fun login(email: String, password: String) {
         if (!checkEmail(email)) {
-            _stateMessage.value = State.INCORRECT_EMAIL
+            _stateMessage.value = UiState.INCORRECT_EMAIL
             return
         }
 
         if (!checkPwd(password)) {
-            _stateMessage.value = State.INCORRECT_PWD
+            _stateMessage.value = UiState.INCORRECT_PWD
             return
         }
 
@@ -42,7 +42,7 @@ class LoginViewModel @Inject constructor(
                 .onSuccess { response ->
                     Timber.d("LOGIN SUCCESS")
                     Timber.d("response : $response")
-                    _stateMessage.value = State.SUCCESS
+                    _stateMessage.value = UiState.SUCCESS
                 }
                 .onFailure {
                     if (it is HttpException) {
@@ -51,12 +51,12 @@ class LoginViewModel @Inject constructor(
                                 Timber.e("LOGIN FAIL")
                                 Timber.e("status code : ${it.code()}")
                                 Timber.e("message : ${it.message}")
-                                _stateMessage.value = State.FAIL
+                                _stateMessage.value = UiState.FAIL
                             }
                             else -> {
                                 Timber.e("LOGIN SERVER ERROR")
                                 Timber.e("message : ${it.message}")
-                                _stateMessage.value = State.SERVER_ERROR
+                                _stateMessage.value = UiState.SERVER_ERROR
                             }
                         }
                     }

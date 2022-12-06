@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.sample.BuildConfig.BASE_URL
 import org.sopt.sample.BuildConfig.REQRES_URL
-import org.sopt.sample.data.local.Type
+import org.sopt.sample.data.local.BaseUrlType
 import retrofit2.Retrofit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -32,7 +32,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @Retrofit2(Type.IN_SOPT)
+    @Retrofit2(BaseUrlType.IN_SOPT)
     fun providesInSoptRetrofit(
         client: OkHttpClient
     ): Retrofit =
@@ -44,7 +44,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    @Retrofit2(Type.REQRES)
+    @Retrofit2(BaseUrlType.REQRES)
     fun providesReqresRetrofit(
         client: OkHttpClient
     ): Retrofit =
@@ -55,5 +55,5 @@ object RetrofitModule {
             .build()
 
     @Qualifier
-    annotation class Retrofit2(val type: Type)
+    annotation class Retrofit2(val baseUrlType: BaseUrlType)
 }

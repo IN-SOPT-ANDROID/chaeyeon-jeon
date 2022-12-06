@@ -7,8 +7,8 @@ import org.sopt.sample.R
 
 object BindingAdapter {
     @JvmStatic
-    @BindingAdapter("setImage")
-    fun ImageView.setImage(imgUrl: String?) {
+    @BindingAdapter("setCircleImage")
+    fun ImageView.setCircleImage(imgUrl: String?) {
         this.let {
             Glide.with(context)
                 .load(imgUrl)

@@ -1,6 +1,6 @@
 package org.sopt.sample.data.local
 
-enum class Type {
+enum class BaseUrlType {
     IN_SOPT,
     REQRES
 }

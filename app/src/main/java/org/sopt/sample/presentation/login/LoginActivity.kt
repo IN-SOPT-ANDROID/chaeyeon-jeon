@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.data.local.State
+import org.sopt.sample.data.local.UiState
 import org.sopt.sample.databinding.ActivityLoginBinding
 import org.sopt.sample.presentation.main.MainActivity
 import org.sopt.sample.presentation.signup.SignUpActivity
@@ -41,22 +41,22 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(this) {
             when (it) {
-                State.SUCCESS -> {
+                UiState.SUCCESS -> {
                     showToast(getString(R.string.msg_login_success))
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
-                State.INCORRECT_EMAIL -> showSnackbar(
+                UiState.INCORRECT_EMAIL -> showSnackbar(
                     binding.root,
                     getString(R.string.msg_email_incorrect)
                 )
-                State.INCORRECT_PWD -> showSnackbar(
+                UiState.INCORRECT_PWD -> showSnackbar(
                     binding.root,
                     getString(R.string.msg_pwd_incorrect)
                 )
-                State.FAIL -> showSnackbar(binding.root, getString(R.string.msg_login_fail))
-                State.SERVER_ERROR -> showSnackbar(
+                UiState.FAIL -> showSnackbar(binding.root, getString(R.string.msg_login_fail))
+                UiState.SERVER_ERROR -> showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
                 )

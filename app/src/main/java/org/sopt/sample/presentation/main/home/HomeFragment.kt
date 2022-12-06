@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.data.local.State
+import org.sopt.sample.data.local.UiState
 import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
 import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_ITEM
@@ -38,7 +38,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                     VIEW_TYPE_HEADER -> 2
                     VIEW_TYPE_ITEM -> 1
                     else -> throw ClassCastException(
-                        "Unknown View Type : ${followerAdapter.getItemViewType(position)}"
+                        "Unknown View BaseUrlType : ${followerAdapter.getItemViewType(position)}"
                     )
                 }
             }
@@ -53,14 +53,14 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
-                State.SUCCESS -> viewModel.followerList.value?.let {
+                UiState.SUCCESS -> viewModel.followerList.value?.let {
                     followerAdapter.setFollowerList(it)
                 }
-                State.NULL -> requireContext().showSnackbar(
+                UiState.NULL -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_home_null)
                 )
-                State.SERVER_ERROR -> requireContext().showSnackbar(
+                UiState.SERVER_ERROR -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
                 )

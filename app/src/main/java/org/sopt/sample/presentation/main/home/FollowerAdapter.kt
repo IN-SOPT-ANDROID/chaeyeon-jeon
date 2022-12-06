@@ -28,7 +28,7 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
                     false
                 )
             )
-            else -> throw ClassCastException("Unknown View Type : $viewType")
+            else -> throw ClassCastException("Unknown View BaseUrlType : $viewType")
         }
     }
 

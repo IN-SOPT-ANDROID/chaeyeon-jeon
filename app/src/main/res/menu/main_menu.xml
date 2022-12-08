@@ -5,6 +5,11 @@
         android:title="@string/home"
         android:icon="@drawable/ic_home" />
     <item
+        android:id="@+id/menu_music"
+        android:title="음악"
+        android:icon="@drawable/ic_music"
+        />
+    <item
         android:id="@+id/menu_gallery"
         android:title="@string/gallery"
         android:icon="@drawable/ic_photo" />

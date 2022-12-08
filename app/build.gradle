@@ -24,6 +24,7 @@ android {
 
         buildConfigField "String", "BASE_URL", properties['base_url']
         buildConfigField "String", "REQRES_URL", properties['reqres_url']
+        buildConfigField "String", "MUSIC_URL", properties['music_url']
     }
 
     buildTypes {

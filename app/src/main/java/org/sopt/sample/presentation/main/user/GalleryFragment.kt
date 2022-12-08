@@ -1,35 +1,21 @@
-package org.sopt.sample.presentation.user
+package org.sopt.sample.presentation.main.user
 
 import android.Manifest
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import coil.load
+import org.sopt.sample.R
 import org.sopt.sample.databinding.FragmentGalleryBinding
+import org.sopt.sample.util.binding.BindingFragment
 
-class GalleryFragment : Fragment() {
-    private var _binding: FragmentGalleryBinding? = null
-    private val binding: FragmentGalleryBinding
-        get() = requireNotNull(_binding) { "binding value was null." }
-
+class GalleryFragment : BindingFragment<FragmentGalleryBinding>(R.layout.fragment_gallery) {
     private val launcher =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
-            binding.imgSample.load(it.get(0))
-            binding.imgSample2.load(it.get(1))
+            binding.imgSample.load(it[0])
+            binding.imgSample2.load(it[1])
         }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentGalleryBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,11 +26,6 @@ class GalleryFragment : Fragment() {
         binding.btnImage.setOnClickListener {
             launcher.launch(PickVisualMediaRequest())
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

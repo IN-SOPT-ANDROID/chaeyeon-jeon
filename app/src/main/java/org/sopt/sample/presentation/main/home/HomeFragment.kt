@@ -38,7 +38,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                     VIEW_TYPE_HEADER -> 2
                     VIEW_TYPE_ITEM -> 1
                     else -> throw ClassCastException(
-                        "Unknown View BaseUrlType : ${followerAdapter.getItemViewType(position)}"
+                        "Unknown View Type : ${followerAdapter.getItemViewType(position)}"
                     )
                 }
             }

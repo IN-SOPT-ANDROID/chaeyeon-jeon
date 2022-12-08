@@ -1,46 +1,74 @@
 package org.sopt.sample.presentation.signup
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import org.sopt.sample.data.remote.RequestSignupDto
-import org.sopt.sample.data.remote.ResponseSignupDto
-import org.sopt.sample.data.remote.ServicePool
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.* // ktlint-disable no-wildcard-imports
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.sample.data.dto.request.RequestSignupDto
+import org.sopt.sample.data.local.UiState
+import org.sopt.sample.data.repository.AuthRepository
+import retrofit2.HttpException
+import timber.log.Timber
+import java.util.regex.Pattern
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
-    private val _signupResult = MutableLiveData<ResponseSignupDto>()
-    val signupResult: LiveData<ResponseSignupDto>
-        get() = _signupResult
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String>
-        get() = _errorMessage
-    private val authService = ServicePool.authService
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
+    private val _stateMessage = MutableLiveData<UiState>()
+    val stateMessage: LiveData<UiState>
+        get() = _stateMessage
 
+    val emailText = MutableLiveData("")
+    val pwdText = MutableLiveData("")
+    val nameText = MutableLiveData("")
+
+    val isValidEmail = Transformations.map(emailText) { checkEmail(it) }
+    val isValidPwd = Transformations.map(pwdText) { checkPwd(it) }
+
+    /** 이메일 유효성 검사 */
+    private fun checkEmail(email: String): Boolean {
+        return email.isEmpty() || Pattern.matches(EMAIL_PATTERN, email)
+    }
+
+    /** 비밀번호 유효성 검사 */
+    private fun checkPwd(pwd: String): Boolean {
+        return pwd.isEmpty() || Pattern.matches(PWD_PATTERN, pwd)
+    }
+
+    /** 서버에 회원가입 요청 */
     fun signup(email: String, password: String, name: String) {
-        authService.signup(RequestSignupDto(email, password, name)).enqueue(object :
-                Callback<ResponseSignupDto> {
-                override fun onResponse(
-                    call: Call<ResponseSignupDto>,
-                    response: Response<ResponseSignupDto>
-                ) {
-                    if (response.isSuccessful) {
-                        _signupResult.value = response.body()
-                        Log.d("SIGNUP_SUCCESS", "response : " + response.body().toString())
-                    } else {
-                        _errorMessage.value = "회원가입에 실패했습니다."
-                        Log.e("SIGNUP_FAIL", "code : " + response.code())
-                        Log.e("SIGNUP_FAIL", "message : " + response.message())
+        viewModelScope.launch {
+            authRepository.signup(RequestSignupDto(email, password, name))
+                .onSuccess { response ->
+                    Timber.d("SIGNUP SUCCESS")
+                    Timber.d("response : $response")
+                    _stateMessage.value = UiState.SUCCESS
+                }
+                .onFailure {
+                    if (it is HttpException) {
+                        when (it.code()) {
+                            SIGNUP_FAIL_CODE -> {
+                                Timber.e("SIGNUP FAIL")
+                                Timber.e("status code : ${it.code()}")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = UiState.FAIL
+                            }
+                            else -> {
+                                Timber.e("SIGNUP SERVER ERROR")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = UiState.SERVER_ERROR
+                            }
+                        }
                     }
                 }
+        }
+    }
 
-                override fun onFailure(call: Call<ResponseSignupDto>, t: Throwable) {
-                    _errorMessage.value = "오류가 발생하였습니다."
-                    Log.e("SIGNUP_FAIL", "message : " + t.message)
-                }
-            })
+    companion object {
+        private const val EMAIL_PATTERN = """^(?=.*[a-zA-Z])(?=.*\d).{6,10}$"""
+        private const val PWD_PATTERN = """^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()?]).{6,12}$"""
+
+        private const val SIGNUP_FAIL_CODE = 400
     }
 }

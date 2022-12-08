@@ -1,23 +1,22 @@
 package org.sopt.sample.api
 
-import org.sopt.sample.data.remote.RequestLoginDto
-import org.sopt.sample.data.remote.RequestSignupDto
-import org.sopt.sample.data.remote.ResponseLoginDto
-import org.sopt.sample.data.remote.ResponseSignupDto
-import retrofit2.Call
+import org.sopt.sample.data.dto.request.RequestLoginDto
+import org.sopt.sample.data.dto.request.RequestSignupDto
+import org.sopt.sample.data.dto.response.ResponseLoginDto
+import org.sopt.sample.data.dto.response.ResponseSignupDto
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthService {
     // 로그인 API
     @POST("api/user/signin")
-    fun login(
+    suspend fun login(
         @Body request: RequestLoginDto
-    ): Call<ResponseLoginDto>
+    ): ResponseLoginDto
 
     // 회원가입 API
     @POST("api/user/signup")
-    fun signup(
+    suspend fun signup(
         @Body request: RequestSignupDto
-    ): Call<ResponseSignupDto>
+    ): ResponseSignupDto
 }

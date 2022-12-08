@@ -1,14 +1,13 @@
 package org.sopt.sample.api
 
-import org.sopt.sample.data.remote.ResponseGetFollowerListDto
-import retrofit2.Call
+import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface FollowerService {
     // Reqres Get List Users API
     @GET("api/users")
-    fun getFollowerList(
+    suspend fun getFollowerList(
         @Query("page") page: Int
-    ): Call<ResponseGetFollowerListDto>
+    ): ResponseGetFollowerListDto
 }

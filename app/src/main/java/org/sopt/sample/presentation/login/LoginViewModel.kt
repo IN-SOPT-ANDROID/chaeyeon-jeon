@@ -1,45 +1,80 @@
 package org.sopt.sample.presentation.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.sopt.sample.data.remote.RequestLoginDto
-import org.sopt.sample.data.remote.ResponseLoginDto
-import org.sopt.sample.data.remote.ServicePool
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.sample.data.dto.request.RequestLoginDto
+import org.sopt.sample.data.local.UiState
+import org.sopt.sample.data.repository.AuthRepository
+import retrofit2.HttpException
+import timber.log.Timber
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     // Backing Property
-    private val _loginResult = MutableLiveData<ResponseLoginDto>()
-    val loginResult: LiveData<ResponseLoginDto>
-        get() = _loginResult
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String>
-        get() = _errorMessage
-    private val authService = ServicePool.authService
+    private val _stateMessage = MutableLiveData<UiState>()
+    val stateMessage: LiveData<UiState>
+        get() = _stateMessage
 
+    val emailText = MutableLiveData("")
+    val pwdText = MutableLiveData("")
+
+    /** 서버에 로그인 요청 */
     fun login(email: String, password: String) {
-        authService.login(RequestLoginDto(email, password))
-            .enqueue(object : Callback<ResponseLoginDto> {
-                override fun onResponse(
-                    call: Call<ResponseLoginDto>,
-                    response: Response<ResponseLoginDto>
-                ) {
-                    if (response.isSuccessful) {
-                        _loginResult.value = response.body()
-                    } else {
-                        _errorMessage.value = "로그인에 실패하였습니다."
+        if (!checkEmail(email)) {
+            _stateMessage.value = UiState.INCORRECT_EMAIL
+            return
+        }
+
+        if (!checkPwd(password)) {
+            _stateMessage.value = UiState.INCORRECT_PWD
+            return
+        }
+
+        viewModelScope.launch {
+            authRepository.login(RequestLoginDto(email, password))
+                .onSuccess { response ->
+                    Timber.d("LOGIN SUCCESS")
+                    Timber.d("response : $response")
+                    _stateMessage.value = UiState.SUCCESS
+                }
+                .onFailure {
+                    if (it is HttpException) {
+                        when (it.code()) {
+                            LOGIN_FAIL_CODE -> {
+                                Timber.e("LOGIN FAIL")
+                                Timber.e("status code : ${it.code()}")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = UiState.FAIL
+                            }
+                            else -> {
+                                Timber.e("LOGIN SERVER ERROR")
+                                Timber.e("message : ${it.message}")
+                                _stateMessage.value = UiState.SERVER_ERROR
+                            }
+                        }
                     }
                 }
+        }
+    }
 
-                override fun onFailure(call: Call<ResponseLoginDto>, t: Throwable) {
-                    _errorMessage.value = "오류가 발생하였습니다."
-                    Log.e("LOGIN_FAIL", "cause : " + t.cause)
-                    Log.e("LOGIN_FAIL", "message : " + t.message)
-                }
-            })
+    /** 이메일 유효성 검사 */
+    private fun checkEmail(email: String): Boolean {
+        return email.length in 6..10
+    }
+
+    /** 비밀번호 유효성 검사 */
+    private fun checkPwd(pwd: String): Boolean {
+        return pwd.length in 6..12
+    }
+
+    companion object {
+        private const val LOGIN_FAIL_CODE = 400
     }
 }

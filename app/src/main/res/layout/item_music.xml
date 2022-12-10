@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="org.sopt.sample.data.dto.response.ResponseGetFollowerListDto.Follower" />
+            type="org.sopt.sample.data.dto.response.ResponseGetMusicListDto.Music" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
             android:layout_width="76dp"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1.0"
-            android:src="@drawable/img_photo_error"
+            setCoverImage="@{data.image}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -38,7 +38,7 @@
             app:layout_constraintBottom_toTopOf="@id/txt_singer"
             app:layout_constraintTop_toTopOf="@id/img_cover"
             app:layout_constraintStart_toEndOf="@id/img_cover"
-            tools:text="Antifreeze"/>
+            tools:text="@{data.title}"/>
 
         <TextView
             android:id="@+id/txt_singer"
@@ -50,7 +50,7 @@
             app:layout_constraintBottom_toBottomOf="@id/img_cover"
             app:layout_constraintTop_toBottomOf="@id/txt_title"
             app:layout_constraintStart_toEndOf="@id/img_cover"
-            tools:text="백예린 (Yerin Baek)"/>
+            tools:text="@{data.singer}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

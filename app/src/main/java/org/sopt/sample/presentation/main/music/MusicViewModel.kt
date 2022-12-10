@@ -1,4 +1,4 @@
-package org.sopt.sample.presentation.main.home
+package org.sopt.sample.presentation.main.music
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,43 +6,43 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto.Follower
+import org.sopt.sample.data.dto.response.ResponseGetMusicListDto.Music
 import org.sopt.sample.data.local.UiState
-import org.sopt.sample.data.repository.FollowerRepository
+import org.sopt.sample.data.repository.MusicRepository
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val followerRepository: FollowerRepository
+class MusicViewModel @Inject constructor(
+    private val musicRepository: MusicRepository
 ) : ViewModel() {
-    private val _followerList = MutableLiveData<List<Follower>>()
-    val followerList: LiveData<List<Follower>>
-        get() = _followerList
+    private val _musicList = MutableLiveData<List<Music>>()
+    val musicList: LiveData<List<Music>>
+        get() = _musicList
 
     private val _stateMessage = MutableLiveData<UiState>()
     val stateMessage: LiveData<UiState>
         get() = _stateMessage
 
-    /** Reqres 서버에 팔로워 리스트 중 1페이지 요청 */
-    fun getFollowerList() {
+    /** 서버에 음악 리스트 요청 */
+    fun getMusicList() {
         viewModelScope.launch {
-            followerRepository.getFollowerList(1)
+            musicRepository.getMusicList()
                 .onSuccess { response ->
-                    // 팔로워가 존재하지 않는 경우
+                    // 음악이 존재하지 않는 경우
                     if (response.data == null) {
-                        Timber.d("GET FOLLOWER LIST IS NULL")
+                        Timber.d("GET MUSIC LIST IS NULL")
                         _stateMessage.value = UiState.NULL
                         return@onSuccess
                     }
 
-                    Timber.d("GET FOLLOWER LIST SUCCESS")
+                    Timber.d("GET MUSIC LIST SUCCESS")
                     Timber.d("response : $response")
-                    _followerList.value = response.data
+                    _musicList.value = response.data
                     _stateMessage.value = UiState.SUCCESS
                 }
                 .onFailure {
-                    Timber.e("GET FOLLOWER LIST SERVER ERROR")
+                    Timber.e("GET MUSIC LIST SERVER ERROR")
                     Timber.e("message : ${it.message}")
                     _stateMessage.value = UiState.SERVER_ERROR
                 }

@@ -21,6 +21,7 @@ class GalleryFragment : BindingFragment<FragmentGalleryBinding>(R.layout.fragmen
     private val viewModel by viewModels<GalleryViewModel>()
 
     private val launcher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+        if (it == null) return@registerForActivityResult
         viewModel.setCoverImage(ContentUriRequestBody(requireContext(), requireNotNull(it)))
         binding.imgCover.load(it)
     }

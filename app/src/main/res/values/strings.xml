@@ -36,6 +36,7 @@
     <string name="msg_home_fail">팔로워 불러오기에 실패하였습니다.</string>
     <string name="msg_register_music_success">음악이 등록되었습니다.</string>
     <string name="msg_image_null">이미지를 등록해주세요.</string>
+    <string name="msg_music_null">저장된 음악이 없습니다.</string>
 
     <string name="hint_email">이메일을 입력하세요</string>
     <string name="hint_pwd">비밀번호를 입력하세요</string>

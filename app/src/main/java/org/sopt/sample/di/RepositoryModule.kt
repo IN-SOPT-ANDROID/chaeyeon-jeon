@@ -4,10 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.sopt.sample.data.repository.AuthRepository
-import org.sopt.sample.data.repository.AuthRepositoryImpl
-import org.sopt.sample.data.repository.FollowerRepository
-import org.sopt.sample.data.repository.FollowerRepositoryImpl
+import org.sopt.sample.data.repository.* // ktlint-disable no-wildcard-imports
 import javax.inject.Singleton
 
 @Module
@@ -24,4 +21,10 @@ abstract class RepositoryModule {
     abstract fun providesFollowerRepository(
         followerRepositoryImpl: FollowerRepositoryImpl
     ): FollowerRepository
+
+    @Binds
+    @Singleton
+    abstract fun providesMusicRepository(
+        musicRepositoryImpl: MusicRepositoryImpl
+    ): MusicRepository
 }

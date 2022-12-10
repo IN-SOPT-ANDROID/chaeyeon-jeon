@@ -1,10 +1,13 @@
 package org.sopt.sample.api
 
 import okhttp3.MultipartBody
-import org.sopt.sample.data.dto.request.RequestRegisterMusicDto
+import okhttp3.RequestBody
 import org.sopt.sample.data.dto.response.ResponseGetMusicListDto
 import org.sopt.sample.data.dto.response.ResponseRegisterMusicDto
-import retrofit2.http.* // ktlint-disable no-wildcard-imports
+import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface MusicService {
     // 음악 리스트 조회 API
@@ -16,6 +19,6 @@ interface MusicService {
     @POST("music")
     suspend fun registerMusic(
         @Part image: MultipartBody.Part?,
-        @Body requestRegisterMusic: RequestRegisterMusicDto
+        @Part("request") request: RequestBody
     ): ResponseRegisterMusicDto
 }

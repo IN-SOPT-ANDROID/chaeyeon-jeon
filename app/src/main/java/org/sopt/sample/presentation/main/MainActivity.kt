@@ -8,10 +8,10 @@ import androidx.fragment.app.replace
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
+import org.sopt.sample.presentation.main.gallery.GalleryFragment
 import org.sopt.sample.presentation.main.home.HomeFragment
 import org.sopt.sample.presentation.main.music.MusicFragment
 import org.sopt.sample.presentation.main.setting.SettingFragment
-import org.sopt.sample.presentation.main.user.GalleryFragment
 import org.sopt.sample.util.binding.BindingActivity
 
 @AndroidEntryPoint

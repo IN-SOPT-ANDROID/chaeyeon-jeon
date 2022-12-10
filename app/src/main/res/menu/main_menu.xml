@@ -6,13 +6,13 @@
         android:icon="@drawable/ic_home" />
     <item
         android:id="@+id/menu_music"
-        android:title="음악"
+        android:title="@string/music"
         android:icon="@drawable/ic_music"
         />
     <item
         android:id="@+id/menu_gallery"
         android:title="@string/gallery"
-        android:icon="@drawable/ic_photo" />
+        android:icon="@drawable/ic_gallery" />
     <item
         android:id="@+id/menu_setting"
         android:title="@string/setting"

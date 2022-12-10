@@ -1,7 +1,7 @@
 package org.sopt.sample.data.repository
 
 import okhttp3.MultipartBody
-import org.sopt.sample.data.dto.request.RequestRegisterMusicDto
+import okhttp3.RequestBody
 import org.sopt.sample.data.dto.response.ResponseGetMusicListDto
 import org.sopt.sample.data.dto.response.ResponseRegisterMusicDto
 import org.sopt.sample.data.source.MusicDataSource
@@ -15,7 +15,7 @@ class MusicRepositoryImpl @Inject constructor(
 
     override suspend fun registerMusic(
         image: MultipartBody.Part,
-        requestRegisterMusicDto: RequestRegisterMusicDto
+        requestBody: RequestBody
     ): Result<ResponseRegisterMusicDto> =
-        kotlin.runCatching { musicDataSource.registerMusic(image, requestRegisterMusicDto) }
+        kotlin.runCatching { musicDataSource.registerMusic(image, requestBody) }
 }

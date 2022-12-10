@@ -14,5 +14,5 @@ data class RequestRegisterMusicDto(
     fun toJsonObject() = buildJsonObject {
         put("singer", singer)
         put("title", title)
-    }.toString().toRequestBody("text/plain".toMediaType())
+    }.toString().toRequestBody("application/json".toMediaType())
 }

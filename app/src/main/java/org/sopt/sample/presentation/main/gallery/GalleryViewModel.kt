@@ -52,8 +52,8 @@ class GalleryViewModel @Inject constructor(
                 }
                 .onFailure {
                     if (it is HttpException) {
+                        // 예외 처리는 미래의 내가!
 //                        when (it.code()) {
-//                         예외 처리는 미래의 내가!
 //                         IMAGE_NULL_CODE -> {}
 //                         INCORRECT_INPUT_CODE -> {}
 //                            else -> {

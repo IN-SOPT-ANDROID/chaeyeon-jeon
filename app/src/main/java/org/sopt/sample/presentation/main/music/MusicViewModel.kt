@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.sample.data.dto.response.ResponseGetMusicListDto.Music
+import org.sopt.sample.data.dto.response.ResponseMusicDto
 import org.sopt.sample.data.local.UiState
 import org.sopt.sample.data.repository.MusicRepository
 import timber.log.Timber
@@ -16,8 +16,8 @@ import javax.inject.Inject
 class MusicViewModel @Inject constructor(
     private val musicRepository: MusicRepository
 ) : ViewModel() {
-    private val _musicList = MutableLiveData<List<Music>>()
-    val musicList: LiveData<List<Music>>
+    private val _musicList = MutableLiveData<List<ResponseMusicDto>>()
+    val musicList: LiveData<List<ResponseMusicDto>>
         get() = _musicList
 
     private val _stateMessage = MutableLiveData<UiState>()
@@ -38,7 +38,7 @@ class MusicViewModel @Inject constructor(
 
                     Timber.d("GET MUSIC LIST SUCCESS")
                     Timber.d("response : $response")
-                    _musicList.value = response.data
+                    _musicList.value = response.data!!
                     _stateMessage.value = UiState.SUCCESS
                 }
                 .onFailure {

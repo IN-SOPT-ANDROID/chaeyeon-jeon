@@ -53,20 +53,16 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
-                UiState.SUCCESS -> viewModel.followerList.value?.let {
+                is UiState.Success -> viewModel.followerList.value?.let {
                     followerAdapter.setFollowerList(it)
                 }
-                UiState.NULL -> requireContext().showSnackbar(
+                is UiState.Failure -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_home_null)
                 )
-                UiState.SERVER_ERROR -> requireContext().showSnackbar(
+                is UiState.Error -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
-                )
-                else -> requireContext().showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_unknown_error)
                 )
             }
         }

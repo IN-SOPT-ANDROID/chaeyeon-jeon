@@ -37,20 +37,16 @@ class MusicFragment : BindingFragment<FragmentMusicBinding>(R.layout.fragment_mu
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
-                UiState.SUCCESS -> viewModel.musicList.value?.let { it ->
+                UiState.Success -> viewModel.musicList.value?.let { it ->
                     musicAdapter.setMusicList(it)
                 }
-                UiState.NULL -> requireContext().showSnackbar(
+                is UiState.Failure -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_music_null)
                 )
-                UiState.SERVER_ERROR -> requireContext().showSnackbar(
+                UiState.Error -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
-                )
-                else -> requireContext().showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_unknown_error)
                 )
             }
         }

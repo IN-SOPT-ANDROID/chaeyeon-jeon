@@ -32,20 +32,24 @@ class MusicViewModel @Inject constructor(
                     // 음악이 존재하지 않는 경우
                     if (response.data == null) {
                         Timber.d("GET MUSIC LIST IS NULL")
-                        _stateMessage.value = UiState.NULL
+                        _stateMessage.value = UiState.Failure(MUSIC_NULL_CODE)
                         return@onSuccess
                     }
 
                     Timber.d("GET MUSIC LIST SUCCESS")
                     Timber.d("response : $response")
                     _musicList.value = response.data!!
-                    _stateMessage.value = UiState.SUCCESS
+                    _stateMessage.value = UiState.Success
                 }
                 .onFailure {
                     Timber.e("GET MUSIC LIST SERVER ERROR")
                     Timber.e("message : ${it.message}")
-                    _stateMessage.value = UiState.SERVER_ERROR
+                    _stateMessage.value = UiState.Error
                 }
         }
+    }
+
+    companion object {
+        const val MUSIC_NULL_CODE = 100
     }
 }

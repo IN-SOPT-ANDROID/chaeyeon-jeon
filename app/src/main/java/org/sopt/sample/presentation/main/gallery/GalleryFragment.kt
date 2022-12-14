@@ -11,6 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.data.local.UiState
 import org.sopt.sample.databinding.FragmentGalleryBinding
+import org.sopt.sample.presentation.main.gallery.GalleryViewModel.Companion.IMAGE_NULL_CODE
+import org.sopt.sample.presentation.main.gallery.GalleryViewModel.Companion.INCORRECT_INPUT_CODE
 import org.sopt.sample.util.ContentUriRequestBody
 import org.sopt.sample.util.binding.BindingFragment
 import org.sopt.sample.util.extension.hideKeyboard
@@ -22,7 +24,7 @@ class GalleryFragment : BindingFragment<FragmentGalleryBinding>(R.layout.fragmen
 
     private val launcher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
         if (it == null) return@registerForActivityResult
-        viewModel.setCoverImage(ContentUriRequestBody(requireContext(), requireNotNull(it)))
+        viewModel.setCoverImage(ContentUriRequestBody(requireContext(), it))
         binding.imgCover.load(it)
     }
 
@@ -55,21 +57,25 @@ class GalleryFragment : BindingFragment<FragmentGalleryBinding>(R.layout.fragmen
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
-                UiState.SUCCESS -> requireContext().showSnackbar(
+                is UiState.Success -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_register_music_success)
                 )
-                UiState.NULL -> requireContext().showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_image_null)
-                )
-                UiState.SERVER_ERROR -> requireContext().showSnackbar(
+                is UiState.Failure -> {
+                    when (it.code) {
+                        IMAGE_NULL_CODE -> requireContext().showSnackbar(
+                            binding.root,
+                            getString(R.string.msg_image_null)
+                        )
+                        INCORRECT_INPUT_CODE -> requireContext().showSnackbar(
+                            binding.root,
+                            getString(R.string.msg_incorrect)
+                        )
+                    }
+                }
+                is UiState.Error -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
-                )
-                else -> requireContext().showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_unknown_error)
                 )
             }
         }

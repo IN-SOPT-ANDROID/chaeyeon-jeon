@@ -30,12 +30,15 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(this) {
             when (it) {
-                UiState.SUCCESS -> {
+                is UiState.Success -> {
                     showToast(getString(R.string.msg_signup_success))
                     finish()
                 }
-                UiState.FAIL -> showSnackbar(binding.root, getString(R.string.msg_signup_fail))
-                UiState.SERVER_ERROR -> showSnackbar(binding.root, getString(R.string.msg_server_error))
+                is UiState.Failure -> showSnackbar(
+                    binding.root,
+                    getString(R.string.msg_signup_fail)
+                )
+                is UiState.Error -> showSnackbar(binding.root, getString(R.string.msg_server_error))
                 else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }

@@ -1,10 +1,7 @@
 package org.sopt.sample.data.local
 
-enum class UiState {
-    SUCCESS,
-    NULL,
-    FAIL,
-    SERVER_ERROR,
-    INCORRECT_EMAIL,
-    INCORRECT_PWD
+sealed class UiState {
+    object Success : UiState()
+    data class Failure(val code: Int?) : UiState()
+    object Error : UiState()
 }

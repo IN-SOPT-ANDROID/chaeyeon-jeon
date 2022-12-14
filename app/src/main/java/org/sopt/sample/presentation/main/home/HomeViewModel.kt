@@ -32,20 +32,24 @@ class HomeViewModel @Inject constructor(
                     // 팔로워가 존재하지 않는 경우
                     if (response.data == null) {
                         Timber.d("GET FOLLOWER LIST IS NULL")
-                        _stateMessage.value = UiState.NULL
+                        _stateMessage.value = UiState.Failure(FOLLOWER_NULL_CODE)
                         return@onSuccess
                     }
 
                     Timber.d("GET FOLLOWER LIST SUCCESS")
                     Timber.d("response : $response")
                     _followerList.value = response.data
-                    _stateMessage.value = UiState.SUCCESS
+                    _stateMessage.value = UiState.Success
                 }
                 .onFailure {
                     Timber.e("GET FOLLOWER LIST SERVER ERROR")
                     Timber.e("message : ${it.message}")
-                    _stateMessage.value = UiState.SERVER_ERROR
+                    _stateMessage.value = UiState.Error
                 }
         }
+    }
+
+    companion object {
+        const val FOLLOWER_NULL_CODE = 100
     }
 }

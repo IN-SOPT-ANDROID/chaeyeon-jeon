@@ -19,7 +19,7 @@ class GalleryViewModel @Inject constructor(
     private val musicRepository: MusicRepository
 ) : ViewModel() {
     private val _image = MutableLiveData<ContentUriRequestBody>()
-    val image: LiveData<ContentUriRequestBody>
+    private val image: LiveData<ContentUriRequestBody>
         get() = _image
 
     private val _stateMessage = MutableLiveData<UiState>()
@@ -38,7 +38,7 @@ class GalleryViewModel @Inject constructor(
     fun registerMusic(title: String, singer: String) {
         // 사진이 등록되지 않은 경우
         if (image.value == null) {
-            _stateMessage.value = UiState.NULL
+            _stateMessage.value = UiState.Failure(IMAGE_NULL_CODE)
             return
         }
 
@@ -48,27 +48,30 @@ class GalleryViewModel @Inject constructor(
                 .onSuccess { response ->
                     Timber.d("REGISTER MUSIC SUCCESS")
                     Timber.d("response: $response")
-                    _stateMessage.value = UiState.SUCCESS
+                    _stateMessage.value = UiState.Success
                 }
                 .onFailure {
                     if (it is HttpException) {
-                        // 예외 처리는 미래의 내가!
-//                        when (it.code()) {
-//                         IMAGE_NULL_CODE -> {}
-//                         INCORRECT_INPUT_CODE -> {}
-//                            else -> {
-                        Timber.e("REGISTER MUSIC SERVER ERROR")
+                        Timber.e("REGISTER MUSIC FAIL")
+                        Timber.e("code : ${it.code()}")
                         Timber.e("message : ${it.message}")
-                        _stateMessage.value = UiState.SERVER_ERROR
-//                            }
-//                        }
+
+                        when (it.code()) {
+                            IMAGE_NULL_CODE ->
+                                _stateMessage.value =
+                                    UiState.Failure(IMAGE_NULL_CODE)
+                            INCORRECT_INPUT_CODE ->
+                                _stateMessage.value =
+                                    UiState.Failure(INCORRECT_INPUT_CODE)
+                            else -> _stateMessage.value = UiState.Error
+                        }
                     }
                 }
         }
     }
 
     companion object {
-        private const val IMAGE_NULL_CODE = 404
-        private const val INCORRECT_INPUT_CODE = 400
+        const val IMAGE_NULL_CODE = 404
+        const val INCORRECT_INPUT_CODE = 400
     }
 }

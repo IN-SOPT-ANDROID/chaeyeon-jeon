@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.response.ResponseMusicDto
-import org.sopt.sample.util.UiState
 import org.sopt.sample.data.repository.MusicRepository
+import org.sopt.sample.util.UiState
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,6 +23,10 @@ class MusicViewModel @Inject constructor(
     private val _stateMessage = MutableLiveData<UiState>()
     val stateMessage: LiveData<UiState>
         get() = _stateMessage
+
+    init {
+        getMusicList()
+    }
 
     /** 서버에 음악 리스트 요청 */
     fun getMusicList() {

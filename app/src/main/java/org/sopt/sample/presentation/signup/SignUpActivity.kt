@@ -39,7 +39,6 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
                     getString(R.string.msg_signup_fail)
                 )
                 is UiState.Error -> showSnackbar(binding.root, getString(R.string.msg_server_error))
-                else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }
     }

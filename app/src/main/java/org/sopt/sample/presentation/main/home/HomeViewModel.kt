@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto.Follower
-import org.sopt.sample.util.UiState
 import org.sopt.sample.data.repository.FollowerRepository
+import org.sopt.sample.util.UiState
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,6 +23,10 @@ class HomeViewModel @Inject constructor(
     private val _stateMessage = MutableLiveData<UiState>()
     val stateMessage: LiveData<UiState>
         get() = _stateMessage
+
+    init {
+        getFollowerList()
+    }
 
     /** Reqres 서버에 팔로워 리스트 중 1페이지 요청 */
     fun getFollowerList() {

@@ -21,17 +21,12 @@ class MusicFragment : BindingFragment<FragmentMusicBinding>(R.layout.fragment_mu
         binding.vm = viewModel
 
         initMusicRecyclerView()
-        getMusicList()
         observeStateMessage()
     }
 
     private fun initMusicRecyclerView() {
         binding.rvMusic.adapter = musicAdapter
         binding.rvMusic.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    private fun getMusicList() {
-        viewModel.getMusicList()
     }
 
     private fun observeStateMessage() {

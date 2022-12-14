@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.util.UiState
 import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
 import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_ITEM
+import org.sopt.sample.util.UiState
 import org.sopt.sample.util.binding.BindingFragment
 import org.sopt.sample.util.extension.showSnackbar
 
@@ -24,7 +24,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
         binding.vm = viewModel
 
         initFollowerRecyclerView()
-        getFollowerList()
         observeStateMessage()
     }
 
@@ -44,10 +43,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
             }
         }
         binding.rvFollower.layoutManager = layoutManager
-    }
-
-    private fun getFollowerList() {
-        viewModel.getFollowerList()
     }
 
     private fun observeStateMessage() {

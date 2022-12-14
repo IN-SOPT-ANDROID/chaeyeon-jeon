@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.request.RequestLoginDto
-import org.sopt.sample.data.local.UiState
+import org.sopt.sample.util.UiState
 import org.sopt.sample.data.repository.AuthRepository
 import retrofit2.HttpException
 import timber.log.Timber

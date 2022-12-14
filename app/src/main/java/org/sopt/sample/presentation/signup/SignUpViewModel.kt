@@ -4,7 +4,7 @@ import androidx.lifecycle.* // ktlint-disable no-wildcard-imports
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.request.RequestSignupDto
-import org.sopt.sample.data.local.UiState
+import org.sopt.sample.util.UiState
 import org.sopt.sample.data.repository.AuthRepository
 import retrofit2.HttpException
 import timber.log.Timber

@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.data.local.UiState
+import org.sopt.sample.util.UiState
 import org.sopt.sample.databinding.FragmentGalleryBinding
 import org.sopt.sample.presentation.main.gallery.GalleryViewModel.Companion.IMAGE_NULL_CODE
 import org.sopt.sample.presentation.main.gallery.GalleryViewModel.Companion.INCORRECT_INPUT_CODE

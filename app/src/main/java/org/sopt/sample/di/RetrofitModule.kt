@@ -10,7 +10,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.sample.BuildConfig.* // ktlint-disable no-wildcard-imports
-import org.sopt.sample.data.local.BaseUrlType
+import org.sopt.sample.data.type.BaseUrlType
 import retrofit2.Retrofit
 import javax.inject.Qualifier
 import javax.inject.Singleton

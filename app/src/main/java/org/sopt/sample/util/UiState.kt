@@ -1,4 +1,4 @@
-package org.sopt.sample.data.local
+package org.sopt.sample.util
 
 sealed class UiState {
     object Success : UiState()

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.data.local.UiState
+import org.sopt.sample.util.UiState
 import org.sopt.sample.databinding.ActivitySignUpBinding
 import org.sopt.sample.util.binding.BindingActivity
 import org.sopt.sample.util.extension.hideKeyboard

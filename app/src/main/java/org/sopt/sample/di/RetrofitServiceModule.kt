@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import org.sopt.sample.api.AuthService
 import org.sopt.sample.api.FollowerService
 import org.sopt.sample.api.MusicService
-import org.sopt.sample.data.local.BaseUrlType
+import org.sopt.sample.data.type.BaseUrlType
 import retrofit2.Retrofit
 
 @Module

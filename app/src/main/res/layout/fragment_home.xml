@@ -20,7 +20,6 @@
             android:id="@+id/rv_follower"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"
             android:paddingBottom="30dp"
             android:clipToPadding="false"
             tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

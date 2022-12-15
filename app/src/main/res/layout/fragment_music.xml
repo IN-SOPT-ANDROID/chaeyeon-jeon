@@ -16,21 +16,12 @@
         android:orientation="vertical"
         android:paddingHorizontal="20dp">
 
-        <TextView
-            android:id="@+id/txt_music_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/music_list"
-            android:textColor="@color/grey_800"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_music"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:clipToPadding="false"
             tools:listitem="@layout/item_music" />
     </LinearLayout>
 

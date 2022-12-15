@@ -6,8 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.util.UiState
 import org.sopt.sample.databinding.FragmentMusicBinding
+import org.sopt.sample.util.UiState
 import org.sopt.sample.util.binding.BindingFragment
 import org.sopt.sample.util.extension.showSnackbar
 
@@ -33,7 +33,7 @@ class MusicFragment : BindingFragment<FragmentMusicBinding>(R.layout.fragment_mu
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
                 UiState.Success -> viewModel.musicList.value?.let { it ->
-                    musicAdapter.setMusicList(it)
+                    musicAdapter.submitList(it)
                 }
                 is UiState.Failure -> requireContext().showSnackbar(
                     binding.root,

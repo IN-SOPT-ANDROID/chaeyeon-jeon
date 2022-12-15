@@ -3,34 +3,66 @@ package org.sopt.sample.presentation.main.music
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.sample.data.dto.response.ResponseMusicDto
+import org.sopt.sample.databinding.HeaderMusicBinding
 import org.sopt.sample.databinding.ItemMusicBinding
 
-class MusicAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MusicAdapter(context: Context) :
+    ListAdapter<ResponseMusicDto, RecyclerView.ViewHolder>(diffUtil) {
     private val inflater by lazy { LayoutInflater.from(context) }
-    private var musicList: List<ResponseMusicDto> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MusicViewHolder(ItemMusicBinding.inflate(inflater, parent, false))
+        return when (viewType) {
+            VIEW_TYPE_HEADER -> MusicHeaderViewHolder(
+                HeaderMusicBinding.inflate(inflater, parent, false)
+            )
+            VIEW_TYPE_ITEM -> MusicViewHolder(
+                ItemMusicBinding.inflate(inflater, parent, false)
+            )
+            else -> throw ClassCastException("Unknown View Type : $viewType")
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is MusicViewHolder) holder.setMusic(musicList[position])
+        if (holder is MusicViewHolder) holder.setMusic(getItem(position - 1))
     }
 
     override fun getItemCount(): Int {
-        return musicList.size
+        return super.getItemCount() + 1
     }
 
-    fun setMusicList(musicList: List<ResponseMusicDto>) {
-        this.musicList = musicList
-        notifyDataSetChanged()
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) VIEW_TYPE_HEADER
+        else VIEW_TYPE_ITEM
     }
 
-    class MusicViewHolder(private val binding: ItemMusicBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MusicViewHolder(private val binding: ItemMusicBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun setMusic(music: ResponseMusicDto) {
             binding.data = music
         }
+    }
+
+    class MusicHeaderViewHolder(private val binding: HeaderMusicBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<ResponseMusicDto>() {
+            override fun areItemsTheSame(
+                oldItem: ResponseMusicDto,
+                newItem: ResponseMusicDto
+            ): Boolean = oldItem == newItem
+
+            override fun areContentsTheSame(
+                oldItem: ResponseMusicDto,
+                newItem: ResponseMusicDto
+            ): Boolean = oldItem.id == newItem.id
+        }
+
+        private const val VIEW_TYPE_HEADER = 0
+        private const val VIEW_TYPE_ITEM = 1
     }
 }

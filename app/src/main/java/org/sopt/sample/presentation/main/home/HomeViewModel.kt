@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
     }
 
     /** Reqres 서버에 팔로워 리스트 중 1페이지 요청 */
-    fun getFollowerList() {
+    private fun getFollowerList() {
         viewModelScope.launch {
             followerRepository.getFollowerList(1)
                 .onSuccess { response ->

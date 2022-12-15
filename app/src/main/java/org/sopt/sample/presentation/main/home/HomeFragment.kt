@@ -46,10 +46,10 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
     }
 
     private fun observeStateMessage() {
-        viewModel.stateMessage.observe(viewLifecycleOwner) {
+        viewModel.stateMessage.observe(viewLifecycleOwner) { it ->
             when (it) {
                 is UiState.Success -> viewModel.followerList.value?.let {
-                    followerAdapter.setFollowerList(it)
+                    followerAdapter.submitList(it)
                 }
                 is UiState.Failure -> requireContext().showSnackbar(
                     binding.root,

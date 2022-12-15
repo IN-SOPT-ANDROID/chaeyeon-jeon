@@ -29,7 +29,7 @@ class MusicViewModel @Inject constructor(
     }
 
     /** 서버에 음악 리스트 요청 */
-    fun getMusicList() {
+    private fun getMusicList() {
         viewModelScope.launch {
             musicRepository.getMusicList()
                 .onSuccess { response ->

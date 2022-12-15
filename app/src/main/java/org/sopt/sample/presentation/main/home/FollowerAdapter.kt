@@ -3,16 +3,20 @@ package org.sopt.sample.presentation.main.home
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto
+import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto.Follower
 import org.sopt.sample.databinding.HeaderHomeFollowerBinding
 import org.sopt.sample.databinding.ItemHomeFollowerBinding
 
-class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FollowerAdapter(context: Context) : ListAdapter<Follower, RecyclerView.ViewHolder>(diffUtil) {
     private val inflater by lazy { LayoutInflater.from(context) }
-    private var followerList: List<ResponseGetFollowerListDto.Follower> = emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_HEADER -> FollowerHeaderViewHolder(
                 HeaderHomeFollowerBinding.inflate(
@@ -33,26 +37,21 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is FollowerViewHolder) holder.setFollower(followerList[position - 1])
+        if (holder is FollowerViewHolder) holder.setFollower(getItem(position - 1))
     }
 
     override fun getItemCount(): Int {
-        return followerList.size + 1
+        return super.getItemCount() + 1
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 0) return VIEW_TYPE_HEADER
-        else return VIEW_TYPE_ITEM
-    }
-
-    fun setFollowerList(followerList: List<ResponseGetFollowerListDto.Follower>) {
-        this.followerList = followerList.toList()
-        notifyDataSetChanged()
+        return if (position == 0) VIEW_TYPE_HEADER
+        else VIEW_TYPE_ITEM
     }
 
     class FollowerViewHolder(private val binding: ItemHomeFollowerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setFollower(follower: ResponseGetFollowerListDto.Follower) {
+        fun setFollower(follower: Follower) {
             binding.data = follower
         }
     }
@@ -61,6 +60,14 @@ class FollowerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.View
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<Follower>() {
+            override fun areItemsTheSame(oldItem: Follower, newItem: Follower): Boolean =
+                oldItem == newItem
+
+            override fun areContentsTheSame(oldItem: Follower, newItem: Follower): Boolean =
+                oldItem.id == newItem.id
+        }
+
         const val VIEW_TYPE_HEADER = 0
         const val VIEW_TYPE_ITEM = 1
     }

@@ -3,12 +3,12 @@ package org.sopt.sample.presentation.main.home
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.sample.data.dto.response.ResponseGetFollowerListDto.Follower
 import org.sopt.sample.databinding.HeaderHomeFollowerBinding
 import org.sopt.sample.databinding.ItemHomeFollowerBinding
+import org.sopt.sample.util.DiffCallback
 
 class FollowerAdapter(context: Context) : ListAdapter<Follower, RecyclerView.ViewHolder>(diffUtil) {
     private val inflater by lazy { LayoutInflater.from(context) }
@@ -60,13 +60,10 @@ class FollowerAdapter(context: Context) : ListAdapter<Follower, RecyclerView.Vie
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Follower>() {
-            override fun areItemsTheSame(oldItem: Follower, newItem: Follower): Boolean =
-                oldItem == newItem
-
-            override fun areContentsTheSame(oldItem: Follower, newItem: Follower): Boolean =
-                oldItem.id == newItem.id
-        }
+        private val diffUtil = DiffCallback<Follower>(
+            onItemsTheSame = { old, new -> old.id == new.id },
+            onContentsTheSame = { old, new -> old == new }
+        )
 
         const val VIEW_TYPE_HEADER = 0
         const val VIEW_TYPE_ITEM = 1

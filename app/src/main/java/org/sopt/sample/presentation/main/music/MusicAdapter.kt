@@ -3,12 +3,12 @@ package org.sopt.sample.presentation.main.music
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.sample.data.dto.response.ResponseMusicDto
 import org.sopt.sample.databinding.HeaderMusicBinding
 import org.sopt.sample.databinding.ItemMusicBinding
+import org.sopt.sample.util.DiffCallback
 
 class MusicAdapter(context: Context) :
     ListAdapter<ResponseMusicDto, RecyclerView.ViewHolder>(diffUtil) {
@@ -50,17 +50,10 @@ class MusicAdapter(context: Context) :
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<ResponseMusicDto>() {
-            override fun areItemsTheSame(
-                oldItem: ResponseMusicDto,
-                newItem: ResponseMusicDto
-            ): Boolean = oldItem == newItem
-
-            override fun areContentsTheSame(
-                oldItem: ResponseMusicDto,
-                newItem: ResponseMusicDto
-            ): Boolean = oldItem.id == newItem.id
-        }
+        private val diffUtil = DiffCallback<ResponseMusicDto>(
+            onItemsTheSame = { old, new -> old.id == new.id },
+            onContentsTheSame = { old, new -> old == new }
+        )
 
         private const val VIEW_TYPE_HEADER = 0
         private const val VIEW_TYPE_ITEM = 1

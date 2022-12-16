@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.sample.data.dto.request.RequestRegisterMusicDto
-import org.sopt.sample.util.UiState
 import org.sopt.sample.data.repository.MusicRepository
 import org.sopt.sample.util.ContentUriRequestBody
+import org.sopt.sample.util.UiState
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject

@@ -32,14 +32,14 @@ class MusicFragment : BindingFragment<FragmentMusicBinding>(R.layout.fragment_mu
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(viewLifecycleOwner) {
             when (it) {
-                UiState.Success -> viewModel.musicList.value?.let { it ->
+                is UiState.Success -> viewModel.musicList.value?.let { it ->
                     musicAdapter.submitList(it)
                 }
                 is UiState.Failure -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_music_null)
                 )
-                UiState.Error -> requireContext().showSnackbar(
+                is UiState.Error -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
                 )

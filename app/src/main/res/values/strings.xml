@@ -11,19 +11,21 @@
     <string name="signup">SIGN UP</string>
     <string name="signup_complete">회원가입 완료</string>
     <string name="home">홈</string>
-    <string name="my_info">내 정보</string>
+    <string name="music">음악</string>
+    <string name="gallery">갤러리</string>
     <string name="setting">설정</string>
+    <string name="music_list">음악 목록</string>
+    <string name="title">제목</string>
+    <string name="singer">가수</string>
+    <string name="register_music">음악 등록하기</string>
 
     <string name="msg_incorrect">잘못된 입력입니다.</string>
     <string name="msg_error">오류가 발생했습니다.</string>
     <string name="msg_server_error">네트워크 연결에 실패했습니다.</string>
-    <string name="msg_unknown_error">알 수 없는 오류가 발생했습니다.</string>
     <string name="msg_email_incorrect">잘못된 이메일입니다.</string>
     <string name="msg_pwd_incorrect">잘못된 비밀번호입니다.</string>
     <string name="msg_name_incorrect">잘못된 이름입니다.</string>
-
     <string name="msg_binding_error">Binding not initialized to reference the view.</string>
-
     <string name="msg_login_null">회원 정보가 존재하지 않습니다.</string>
     <string name="msg_login_success">로그인에 성공했습니다.</string>
     <string name="msg_login_fail">로그인에 실패하였습니다.</string>
@@ -31,10 +33,15 @@
     <string name="msg_signup_fail">회원가입에 실패하였습니다.</string>
     <string name="msg_home_null">팔로워가 존재하지 않습니다.</string>
     <string name="msg_home_fail">팔로워 불러오기에 실패하였습니다.</string>
+    <string name="msg_register_music_success">음악이 등록되었습니다.</string>
+    <string name="msg_image_null">이미지를 등록해주세요.</string>
+    <string name="msg_music_null">저장된 음악이 없습니다.</string>
 
     <string name="hint_email">이메일을 입력하세요</string>
     <string name="hint_pwd">비밀번호를 입력하세요</string>
     <string name="hint_name">이름을 입력하세요</string>
+    <string name="hint_title">제목을 입력하세요</string>
+    <string name="hint_singer">가수를 입력하세요</string>
 
     <string name="label_name">이름 :&#160;</string>
     <string name="label_email">이메일 :&#160;</string>

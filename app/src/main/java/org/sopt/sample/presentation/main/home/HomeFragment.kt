@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.data.local.UiState
 import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_HEADER
 import org.sopt.sample.presentation.main.home.FollowerAdapter.Companion.VIEW_TYPE_ITEM
+import org.sopt.sample.util.UiState
 import org.sopt.sample.util.binding.BindingFragment
 import org.sopt.sample.util.extension.showSnackbar
 
@@ -24,7 +24,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
         binding.vm = viewModel
 
         initFollowerRecyclerView()
-        getFollowerList()
         observeStateMessage()
     }
 
@@ -38,7 +37,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                     VIEW_TYPE_HEADER -> 2
                     VIEW_TYPE_ITEM -> 1
                     else -> throw ClassCastException(
-                        "Unknown View BaseUrlType : ${followerAdapter.getItemViewType(position)}"
+                        "Unknown View Type : ${followerAdapter.getItemViewType(position)}"
                     )
                 }
             }
@@ -46,27 +45,19 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
         binding.rvFollower.layoutManager = layoutManager
     }
 
-    private fun getFollowerList() {
-        viewModel.getFollowerList()
-    }
-
     private fun observeStateMessage() {
-        viewModel.stateMessage.observe(viewLifecycleOwner) {
+        viewModel.stateMessage.observe(viewLifecycleOwner) { it ->
             when (it) {
-                UiState.SUCCESS -> viewModel.followerList.value?.let {
-                    followerAdapter.setFollowerList(it)
+                is UiState.Success -> viewModel.followerList.value?.let {
+                    followerAdapter.submitList(it)
                 }
-                UiState.NULL -> requireContext().showSnackbar(
+                is UiState.Failure -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_home_null)
                 )
-                UiState.SERVER_ERROR -> requireContext().showSnackbar(
+                is UiState.Error -> requireContext().showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
-                )
-                else -> requireContext().showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_unknown_error)
                 )
             }
         }

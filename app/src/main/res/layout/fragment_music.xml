@@ -7,27 +7,25 @@
 
         <variable
             name="vm"
-            type="org.sopt.sample.presentation.main.home.HomeViewModel" />
+            type="org.sopt.sample.presentation.main.music.MusicViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame"
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".presentation.main.home.HomeFragment">
+        android:layout_height="match_parent" >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_follower"
+            android:id="@+id/rv_music"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
+            android:paddingBottom="10dp"
             android:paddingHorizontal="20dp"
-            android:paddingBottom="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_home_follower"
-            tools:spanCount="2" />
+            tools:listitem="@layout/item_music" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

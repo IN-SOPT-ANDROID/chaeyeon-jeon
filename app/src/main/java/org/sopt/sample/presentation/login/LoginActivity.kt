@@ -5,8 +5,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
-import org.sopt.sample.data.local.UiState
+import org.sopt.sample.util.UiState
 import org.sopt.sample.databinding.ActivityLoginBinding
+import org.sopt.sample.presentation.login.LoginViewModel.Companion.INCORRECT_EMAIL_CODE
+import org.sopt.sample.presentation.login.LoginViewModel.Companion.INCORRECT_PWD_CODE
+import org.sopt.sample.presentation.login.LoginViewModel.Companion.LOGIN_FAIL_CODE
 import org.sopt.sample.presentation.main.MainActivity
 import org.sopt.sample.presentation.signup.SignUpActivity
 import org.sopt.sample.util.binding.BindingActivity
@@ -41,26 +44,32 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     private fun observeStateMessage() {
         viewModel.stateMessage.observe(this) {
             when (it) {
-                UiState.SUCCESS -> {
+                is UiState.Success -> {
                     showToast(getString(R.string.msg_login_success))
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
-                UiState.INCORRECT_EMAIL -> showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_email_incorrect)
-                )
-                UiState.INCORRECT_PWD -> showSnackbar(
-                    binding.root,
-                    getString(R.string.msg_pwd_incorrect)
-                )
-                UiState.FAIL -> showSnackbar(binding.root, getString(R.string.msg_login_fail))
-                UiState.SERVER_ERROR -> showSnackbar(
+                is UiState.Failure -> {
+                    when (it.code) {
+                        INCORRECT_EMAIL_CODE -> showSnackbar(
+                            binding.root,
+                            getString(R.string.msg_email_incorrect)
+                        )
+                        INCORRECT_PWD_CODE -> showSnackbar(
+                            binding.root,
+                            getString(R.string.msg_pwd_incorrect)
+                        )
+                        LOGIN_FAIL_CODE -> showSnackbar(
+                            binding.root,
+                            getString(R.string.msg_login_fail)
+                        )
+                    }
+                }
+                is UiState.Error -> showSnackbar(
                     binding.root,
                     getString(R.string.msg_server_error)
                 )
-                else -> showSnackbar(binding.root, getString(R.string.msg_unknown_error))
             }
         }
     }

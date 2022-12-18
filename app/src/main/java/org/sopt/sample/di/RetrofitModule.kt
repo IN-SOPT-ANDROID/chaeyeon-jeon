@@ -9,9 +9,8 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.sopt.sample.BuildConfig.BASE_URL
-import org.sopt.sample.BuildConfig.REQRES_URL
-import org.sopt.sample.data.local.BaseUrlType
+import org.sopt.sample.BuildConfig.* // ktlint-disable no-wildcard-imports
+import org.sopt.sample.data.type.BaseUrlType
 import retrofit2.Retrofit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -53,6 +52,17 @@ object RetrofitModule {
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .client(client)
             .build()
+
+    @Provides
+    @Singleton
+    @Retrofit2(BaseUrlType.MUSIC)
+    fun providesMusicRetrofit(
+        client: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(MUSIC_URL)
+        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .client(client)
+        .build()
 
     @Qualifier
     annotation class Retrofit2(val baseUrlType: BaseUrlType)

@@ -8,9 +8,10 @@ import androidx.fragment.app.replace
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
+import org.sopt.sample.presentation.main.gallery.GalleryFragment
 import org.sopt.sample.presentation.main.home.HomeFragment
+import org.sopt.sample.presentation.main.music.MusicFragment
 import org.sopt.sample.presentation.main.setting.SettingFragment
-import org.sopt.sample.presentation.main.user.UserFragment
 import org.sopt.sample.util.binding.BindingActivity
 
 @AndroidEntryPoint
@@ -30,7 +31,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         binding.bnvHome.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> setCurrentFragment<HomeFragment>()
-                R.id.menu_user -> setCurrentFragment<UserFragment>()
+                R.id.menu_music -> setCurrentFragment<MusicFragment>()
+                R.id.menu_gallery -> setCurrentFragment<GalleryFragment>()
                 R.id.menu_setting -> setCurrentFragment<SettingFragment>()
             }
             true
